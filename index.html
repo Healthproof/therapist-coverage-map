@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Healthproof Therapist Coverage Map</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --blue:#26a4ff;
+    --blue-deep:#0d7fd6;
+    --blue-light:#eff8ff;
+    --ink:#0d0f11;
+    --ink-soft:#5b6268;
+    --grey:#efefef;
+    --grey-line:#e2e4e6;
+    --orange:#ff8127;
+    --white:#ffffff;
+
+    --disc-pt:#26a4ff;
+    --disc-ot:#1fb187;
+    --disc-speech:#ff8127;
+    --disc-dietetics:#8a5fd6;
+    --disc-podiatry:#e8556f;
+    --disc-default:#8a8f94;
+
+    --cap-good:#1c9d6f;
+    --cap-good-bg:#e4f6ee;
+    --cap-tight:#c67c11;
+    --cap-tight-bg:#fdf2e0;
+    --cap-full:#d13b3b;
+    --cap-full-bg:#fce9e9;
+    --cap-unknown-bg:#f0f0f0;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:'Inter',system-ui,-apple-system,sans-serif;
+    background:var(--grey);
+    color:var(--ink);
+  }
+  header{
+    padding:14px 28px;
+    background:var(--white);
+    border-bottom:3px solid var(--blue);
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+    flex-wrap:wrap;
+  }
+  header .brand{
+    display:flex;
+    align-items:center;
+    gap:16px;
+  }
+  header img.logo{
+    height:34px;
+    width:auto;
+    display:block;
+  }
+  header .divider{
+    width:1px;
+    height:28px;
+    background:var(--grey-line);
+  }
+  header .title-block h1{
+    margin:0;
+    font-family:'Poppins',sans-serif;
+    font-size:15px;
+    font-weight:600;
+    letter-spacing:0.2px;
+    color:var(--ink);
+  }
+  header .title-block p{
+    margin:1px 0 0;
+    font-size:12px;
+    color:var(--ink-soft);
+  }
+  header .badge-internal{
+    font-size:11px;
+    font-weight:600;
+    text-transform:uppercase;
+    letter-spacing:0.6px;
+    color:var(--blue-deep);
+    background:var(--blue-light);
+    padding:5px 12px;
+    border-radius:999px;
+  }
+
+  .layout{
+    display:flex;
+    height:calc(100vh - 63px);
+  }
+  .sidebar{
+    width:350px;
+    min-width:350px;
+    background:var(--white);
+    border-right:1px solid var(--grey-line);
+    overflow-y:auto;
+    padding:18px;
+  }
+  .field-label{
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:0.6px;
+    font-weight:600;
+    color:var(--ink-soft);
+    margin-bottom:6px;
+    display:block;
+  }
+  #suburb-input{
+    width:100%;
+    padding:11px 14px;
+    font-size:14px;
+    border:1.5px solid var(--grey-line);
+    border-radius:8px;
+    background:var(--white);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    transition:border-color 0.15s;
+  }
+  #suburb-input:focus{
+    outline:none;
+    border-color:var(--blue);
+    box-shadow:0 0 0 3px var(--blue-light);
+  }
+  #suggestions{
+    list-style:none;
+    margin:6px 0 0;
+    padding:0;
+    border:1px solid var(--grey-line);
+    border-radius:8px;
+    background:var(--white);
+    max-height:190px;
+    overflow-y:auto;
+    display:none;
+    box-shadow:0 6px 16px rgba(13,15,17,0.08);
+  }
+  #suggestions li{
+    padding:9px 14px;
+    font-size:13px;
+    cursor:pointer;
+    border-bottom:1px solid var(--grey-line);
+  }
+  #suggestions li:last-child{border-bottom:none;}
+  #suggestions li:hover, #suggestions li.active{background:var(--blue-light);}
+
+  .controls-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin:18px 0 6px;
+  }
+  .toggle-label{
+    font-size:13px;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    cursor:pointer;
+    color:var(--ink);
+  }
+  .toggle-label input{accent-color:var(--blue);}
+  .radius-value{
+    font-size:13px;
+    color:var(--blue-deep);
+    font-weight:600;
+    font-variant-numeric:tabular-nums;
+  }
+  input[type="range"]{width:100%;accent-color:var(--blue);}
+
+  .filter-group{margin-top:18px;}
+  .chip-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;}
+  .chip{
+    font-size:12px;
+    font-weight:500;
+    padding:6px 12px;
+    border:1.5px solid var(--grey-line);
+    border-radius:999px;
+    cursor:pointer;
+    background:var(--white);
+    color:var(--ink-soft);
+    user-select:none;
+    display:flex;
+    align-items:center;
+    gap:6px;
+    transition:all 0.12s;
+  }
+  .chip .dot{
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:currentColor;
+  }
+  .chip.on{
+    color:var(--white);
+    border-color:transparent;
+  }
+
+  #status-line{
+    margin-top:20px;
+    padding-top:16px;
+    border-top:1px solid var(--grey-line);
+    font-size:13px;
+    color:var(--ink-soft);
+    line-height:1.5;
+  }
+
+  #results{
+    margin-top:14px;
+    list-style:none;
+    padding:0;
+  }
+  .result-card{
+    border:1px solid var(--grey-line);
+    border-left-width:4px;
+    border-radius:8px;
+    padding:11px 13px;
+    margin-bottom:9px;
+    background:var(--white);
+    cursor:pointer;
+    transition:box-shadow 0.12s, transform 0.12s;
+  }
+  .result-card:hover{
+    box-shadow:0 4px 14px rgba(13,15,17,0.08);
+    transform:translateY(-1px);
+  }
+  .result-card.on-leave{opacity:0.55;}
+  .result-name{
+    font-size:14px;
+    font-weight:600;
+    margin:0 0 2px;
+    color:var(--ink);
+  }
+  .result-meta{
+    font-size:12px;
+    color:var(--ink-soft);
+    margin:0 0 7px;
+  }
+  .badge-row{display:flex;gap:6px;flex-wrap:wrap;align-items:center;}
+  .badge{
+    font-size:11px;
+    padding:3px 8px;
+    border-radius:5px;
+    font-weight:600;
+  }
+  .badge-dist{background:var(--grey);color:var(--ink-soft);}
+  .badge-cap-good{background:var(--cap-good-bg);color:var(--cap-good);}
+  .badge-cap-tight{background:var(--cap-tight-bg);color:var(--cap-tight);}
+  .badge-cap-full{background:var(--cap-full-bg);color:var(--cap-full);}
+  .badge-cap-unknown{background:var(--cap-unknown-bg);color:var(--ink-soft);}
+  .badge-leave{background:var(--cap-unknown-bg);color:var(--ink-soft);}
+
+  #legend{
+    margin-top:18px;
+    padding-top:16px;
+    border-top:1px solid var(--grey-line);
+  }
+  #legend .legend-row{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    font-size:12.5px;
+    color:var(--ink-soft);
+    margin-bottom:6px;
+  }
+  #legend .legend-row .dot{
+    width:10px;
+    height:10px;
+    border-radius:50%;
+    flex-shrink:0;
+  }
+
+  #map{flex:1;}
+
+  .leaflet-popup-content-wrapper{border-radius:10px;}
+  .leaflet-popup-content{font-size:13px;line-height:1.55;margin:12px 14px;}
+  .popup-name{font-family:'Poppins',sans-serif;font-size:14px;font-weight:600;color:var(--ink);display:block;margin-bottom:2px;}
+  .popup-disc{
+    display:inline-block;
+    font-size:10.5px;
+    font-weight:600;
+    text-transform:uppercase;
+    letter-spacing:0.4px;
+    padding:2px 8px;
+    border-radius:999px;
+    color:#fff;
+    margin-bottom:6px;
+  }
+
+  .hint{
+    font-size:12px;
+    color:var(--ink-soft);
+    margin-top:5px;
+  }
+
+  @media (max-width: 720px){
+    .layout{flex-direction:column;height:auto;}
+    .sidebar{width:100%;min-width:0;border-right:none;border-bottom:1px solid var(--grey-line);}
+    #map{height:60vh;}
+    header{padding:12px 16px;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <img class="logo" src="assets/logo.png" alt="Healthproof">
+    <div class="divider"></div>
+    <div class="title-block">
+      <h1>Therapist coverage map</h1>
+      <p>Search a suburb to see who's within range and their current booking capacity</p>
+    </div>
+  </div>
+  <span class="badge-internal">Internal use only</span>
+</header>
+
+<div class="layout">
+  <div class="sidebar">
+    <label class="field-label" for="suburb-input">Search a suburb</label>
+    <input id="suburb-input" type="text" placeholder="e.g. Parramatta" autocomplete="off">
+    <ul id="suggestions"></ul>
+    <p class="hint">Or click anywhere on the map to drop a pin.</p>
+
+    <div class="controls-row">
+      <label class="toggle-label"><input type="checkbox" id="show-all-radius" checked> Show 25km coverage circles</label>
+    </div>
+    <label class="field-label" style="margin-top:12px;">Search radius (km)</label>
+    <input type="range" id="radius-slider" min="5" max="60" value="25" step="5">
+    <div class="radius-value" id="radius-value">25 km</div>
+
+    <div class="filter-group">
+      <span class="field-label">Discipline</span>
+      <div class="chip-row" id="discipline-chips"></div>
+    </div>
+
+    <div class="filter-group">
+      <label class="toggle-label"><input type="checkbox" id="hide-leave"> Hide staff on leave</label>
+    </div>
+
+    <p class="hint" style="display:none; margin-top:10px;">LGA: <strong id="lga-name" style="color:var(--ink); font-weight:600;"></strong></p>
+    <div id="status-line">Loading roster&hellip;</div>
+    <ul id="results"></ul>
+
+    <div id="legend"></div>
+  </div>
+  <div id="map"></div>
+</div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+const DISCIPLINE_META = {
+  PT:        { label: "Physio",     color: "var(--disc-pt)" },
+  OT:        { label: "OT",         color: "var(--disc-ot)" },
+  Speech:    { label: "Speech",     color: "var(--disc-speech)" },
+  Dietetics: { label: "Dietetics",  color: "var(--disc-dietetics)" },
+  Podiatry:  { label: "Podiatry",   color: "var(--disc-podiatry)" }
+};
+// Resolved hex values (CSS vars don't work inside Leaflet's canvas/SVG styling in all cases, so keep a JS-side mirror)
+const DISCIPLINE_HEX = {
+  PT: "#26a4ff",
+  OT: "#1fb187",
+  Speech: "#ff8127",
+  Dietetics: "#8a5fd6",
+  Podiatry: "#e8556f"
+};
+const DISCIPLINE_DEFAULT_HEX = "#8a8f94";
+
+function disciplineColor(code) {
+  return DISCIPLINE_HEX[code] || DISCIPLINE_DEFAULT_HEX;
+}
+function disciplineLabel(code) {
+  return (DISCIPLINE_META[code] && DISCIPLINE_META[code].label) || code || "Unspecified";
+}
+
+const state = {
+  clinicians: [],
+  suburbIndex: null,
+  suburbNames: [],
+  searchPoint: null,
+  searchLabel: null,
+  radiusKm: 25,
+  activeDisciplines: new Set(),
+  hideLeave: false,
+  showAllRadius: true,
+};
+
+const map = L.map('map', { zoomControl: true }).setView([-33.86, 151.05], 10);
+L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+  maxZoom: 19,
+  attribution: '&copy; OpenStreetMap contributors &copy; CARTO'
+}).addTo(map);
+
+const markerLayer = L.layerGroup().addTo(map);
+const circleLayer = L.layerGroup().addTo(map);
+const lgaLayer = L.layerGroup().addTo(map);
+let searchMarker = null;
+let lgaFeatures = [];
+
+// Minimal point-in-polygon (ray casting), handles Polygon and MultiPolygon
+function pointInRing(lat, lon, ring) {
+  let inside = false;
+  for (let i = 0, j = ring.length - 1; i < ring.length; j = i++) {
+    const xi = ring[i][0], yi = ring[i][1];
+    const xj = ring[j][0], yj = ring[j][1];
+    const intersect = ((yi > lat) !== (yj > lat)) &&
+      (lon < (xj - xi) * (lat - yi) / (yj - yi) + xi);
+    if (intersect) inside = !inside;
+  }
+  return inside;
+}
+function pointInPolygonGeom(lat, lon, geometry) {
+  const polys = geometry.type === 'MultiPolygon' ? geometry.coordinates : [geometry.coordinates];
+  for (const poly of polys) {
+    // poly[0] = outer ring, poly[1..] = holes
+    if (pointInRing(lat, lon, poly[0])) {
+      let inHole = false;
+      for (let h = 1; h < poly.length; h++) {
+        if (pointInRing(lat, lon, poly[h])) { inHole = true; break; }
+      }
+      if (!inHole) return true;
+    }
+  }
+  return false;
+}
+function findLGA(lat, lon) {
+  for (const f of lgaFeatures) {
+    if (pointInPolygonGeom(lat, lon, f.geometry)) return f;
+  }
+  return null;
+}
+function titleCaseLGA(name) {
+  if (!name) return '';
+  return name.replace(/\w\S*/g, w => w.charAt(0) + w.slice(1).toLowerCase());
+}
+
+function haversineKm(lat1, lon1, lat2, lon2) {
+  const R = 6371;
+  const toRad = d => d * Math.PI / 180;
+  const dLat = toRad(lat2 - lat1);
+  const dLon = toRad(lon2 - lon1);
+  const a = Math.sin(dLat/2)**2 + Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon/2)**2;
+  return R * 2 * Math.asin(Math.sqrt(a));
+}
+
+function capacityBadgeClass(value) {
+  if (value == null) return 'badge-cap-unknown';
+  const v = String(value).trim().toLowerCase();
+  if (v === 'leave') return 'badge-leave';
+  if (v === '0') return 'badge-cap-full';
+  if (v === '10++' || v === '10') return 'badge-cap-good';
+  const m = v.match(/(\d+)/);
+  if (m) {
+    const n = parseInt(m[1], 10);
+    if (n >= 6) return 'badge-cap-good';
+    if (n >= 1) return 'badge-cap-tight';
+  }
+  return 'badge-cap-unknown';
+}
+
+function capacityLabel(c) {
+  if (c.on_leave) return 'On leave';
+  if (c.discipline_code == null) return 'No capacity data this fortnight';
+  return `1&ndash;2wk: ${c.capacity_1_2wk}  &middot;  3&ndash;4wk: ${c.capacity_3_4wk}`;
+}
+
+async function loadData() {
+  const [clinicians, suburbIndex] = await Promise.all([
+    fetch('data/clinicians.json').then(r => r.json()),
+    fetch('data/nsw-suburbs.json').then(r => r.json())
+  ]);
+  state.clinicians = clinicians;
+  state.suburbIndex = suburbIndex;
+
+  // LGA boundaries are a nice-to-have overlay, not core functionality —
+  // if this fails to load for any reason, the roster/search/map should
+  // still work fine, just without LGA highlighting.
+  try {
+    const lgas = await fetch('data/lga-boundaries.json').then(r => {
+      if (!r.ok) throw new Error(`lga-boundaries.json: ${r.status}`);
+      return r.json();
+    });
+    lgaFeatures = lgas.features;
+  } catch (err) {
+    console.warn('LGA boundaries did not load — continuing without LGA highlighting.', err);
+    lgaFeatures = [];
+  }
+  state.suburbNames = Object.values(suburbIndex)
+    .map(v => `${v.suburb} ${v.postcode}`)
+    .filter((v, i, arr) => arr.indexOf(v) === i)
+    .sort();
+
+  const disciplines = [...new Set(clinicians.map(c => c.discipline_code).filter(Boolean))];
+  const chipRow = document.getElementById('discipline-chips');
+  const legendEl = document.getElementById('legend');
+
+  disciplines.forEach(code => {
+    state.activeDisciplines.add(code);
+    const color = disciplineColor(code);
+
+    const chip = document.createElement('div');
+    chip.className = 'chip on';
+    chip.style.background = color;
+    chip.innerHTML = `<span class="dot" style="background:#fff;"></span>${disciplineLabel(code)}`;
+    chip.dataset.code = code;
+    chip.addEventListener('click', () => {
+      if (state.activeDisciplines.has(code)) {
+        state.activeDisciplines.delete(code);
+        chip.classList.remove('on');
+        chip.style.background = '';
+        chip.style.color = '';
+        chip.querySelector('.dot').style.background = color;
+      } else {
+        state.activeDisciplines.add(code);
+        chip.classList.add('on');
+        chip.style.background = color;
+        chip.style.color = '#fff';
+        chip.querySelector('.dot').style.background = '#fff';
+      }
+      render();
+    });
+    chipRow.appendChild(chip);
+
+    const legendRow = document.createElement('div');
+    legendRow.className = 'legend-row';
+    legendRow.innerHTML = `<span class="dot" style="background:${color};"></span>${disciplineLabel(code)}`;
+    legendEl.appendChild(legendRow);
+  });
+
+  render();
+}
+
+function normSuburbQuery(s) {
+  return s.toUpperCase().trim();
+}
+
+function suburbLookupKey(suburb, postcode) {
+  const norm = suburb.toUpperCase().replace(/[^A-Z0-9 ]/g, '').replace(/\s+/g, ' ').trim();
+  return postcode ? `${norm}|${postcode}` : norm;
+}
+
+function setSearchPoint(lat, lon, label) {
+  state.searchPoint = { lat, lon };
+  state.searchLabel = label;
+  if (searchMarker) map.removeLayer(searchMarker);
+  searchMarker = L.marker([lat, lon], {
+    icon: L.divIcon({
+      className: '',
+      html: '<div style="width:16px;height:16px;border-radius:50%;background:#0d0f11;border:3px solid #fff;box-shadow:0 0 0 2px #0d0f11, 0 2px 6px rgba(0,0,0,0.35);"></div>',
+      iconSize: [16, 16],
+      iconAnchor: [8, 8]
+    })
+  }).addTo(map);
+  map.setView([lat, lon], 11);
+
+  lgaLayer.clearLayers();
+  const lga = findLGA(lat, lon);
+  const lgaNameEl = document.getElementById('lga-name');
+  if (lga) {
+    const niceName = titleCaseLGA(lga.properties.name);
+    L.geoJSON(lga.geometry, {
+      style: { color: '#0d0f11', weight: 2, dashArray: '5,4', fill: false }
+    }).addTo(lgaLayer);
+    lgaNameEl.textContent = niceName;
+    lgaNameEl.parentElement.style.display = 'block';
+  } else {
+    lgaNameEl.parentElement.style.display = 'none';
+  }
+
+  render();
+}
+
+document.getElementById('suburb-input').addEventListener('input', (e) => {
+  const q = normSuburbQuery(e.target.value);
+  const box = document.getElementById('suggestions');
+  box.innerHTML = '';
+  if (q.length < 2) { box.style.display = 'none'; return; }
+  const matches = state.suburbNames.filter(n => n.startsWith(q)).slice(0, 8);
+  if (matches.length === 0) { box.style.display = 'none'; return; }
+  matches.forEach(m => {
+    const li = document.createElement('li');
+    li.textContent = m;
+    li.addEventListener('click', () => {
+      const [suburb, postcode] = [m.slice(0, m.lastIndexOf(' ')), m.slice(m.lastIndexOf(' ') + 1)];
+      const key = suburbLookupKey(suburb, postcode);
+      const hit = state.suburbIndex[key] || state.suburbIndex[suburbLookupKey(suburb)];
+      if (hit) {
+        document.getElementById('suburb-input').value = m;
+        box.style.display = 'none';
+        setSearchPoint(hit.lat, hit.lon, m);
+      }
+    });
+    box.appendChild(li);
+  });
+  box.style.display = 'block';
+});
+
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('#suburb-input') && !e.target.closest('#suggestions')) {
+    document.getElementById('suggestions').style.display = 'none';
+  }
+});
+
+map.on('click', (e) => {
+  setSearchPoint(e.latlng.lat, e.latlng.lng, `Dropped pin (${e.latlng.lat.toFixed(3)}, ${e.latlng.lng.toFixed(3)})`);
+});
+
+document.getElementById('radius-slider').addEventListener('input', (e) => {
+  state.radiusKm = parseInt(e.target.value, 10);
+  document.getElementById('radius-value').textContent = `${state.radiusKm} km`;
+  render();
+});
+
+document.getElementById('show-all-radius').addEventListener('change', (e) => {
+  state.showAllRadius = e.target.checked;
+  render();
+});
+
+document.getElementById('hide-leave').addEventListener('change', (e) => {
+  state.hideLeave = e.target.checked;
+  render();
+});
+
+function render() {
+  markerLayer.clearLayers();
+  circleLayer.clearLayers();
+  const resultsEl = document.getElementById('results');
+  resultsEl.innerHTML = '';
+
+  const visible = state.clinicians.filter(c => {
+    if (c.status !== 'active') return false;
+    if (c.lat == null) return false;
+    if (state.hideLeave && c.on_leave) return false;
+    if (c.discipline_code && !state.activeDisciplines.has(c.discipline_code)) return false;
+    return true;
+  });
+
+  let withDistance = visible.map(c => {
+    const dist = state.searchPoint
+      ? haversineKm(state.searchPoint.lat, state.searchPoint.lon, c.lat, c.lon)
+      : null;
+    return { ...c, distanceKm: dist };
+  });
+
+  if (state.searchPoint) {
+    withDistance = withDistance.filter(c => c.distanceKm <= state.radiusKm);
+    withDistance.sort((a, b) => a.distanceKm - b.distanceKm);
+  } else {
+    withDistance.sort((a, b) => a.name.localeCompare(b.name));
+  }
+
+  withDistance.forEach(c => {
+    const color = disciplineColor(c.discipline_code);
+    const marker = L.circleMarker([c.lat, c.lon], {
+      radius: 7.5,
+      color: c.on_leave ? '#a9adb1' : color,
+      fillColor: c.on_leave ? '#c9cccf' : color,
+      fillOpacity: c.on_leave ? 0.45 : 0.9,
+      weight: 2
+    });
+    marker.bindPopup(`
+      <span class="popup-name">${c.name}</span>
+      <span class="popup-disc" style="background:${c.on_leave ? '#a9adb1' : color};">${disciplineLabel(c.discipline_code)}</span><br>
+      ${c.job_title}<br>
+      ${c.suburb} ${c.postcode}<br>
+      ${capacityLabel(c)}
+      ${c.distanceKm != null ? `<br>${c.distanceKm.toFixed(1)} km from search point` : ''}
+    `);
+    marker.addTo(markerLayer);
+
+    if (state.showAllRadius) {
+      L.circle([c.lat, c.lon], {
+        radius: 25000,
+        color: c.on_leave ? '#c9cccf' : color,
+        weight: 1.25,
+        fillColor: color,
+        fillOpacity: 0.035,
+        dashArray: c.on_leave ? '3,4' : null
+      }).addTo(circleLayer);
+    }
+
+    const card = document.createElement('li');
+    card.className = 'result-card' + (c.on_leave ? ' on-leave' : '');
+    card.style.borderLeftColor = c.on_leave ? '#c9cccf' : color;
+    card.innerHTML = `
+      <p class="result-name">${c.name}</p>
+      <p class="result-meta">${disciplineLabel(c.discipline_code)} &middot; ${c.suburb} ${c.postcode}</p>
+      <div class="badge-row">
+        ${c.distanceKm != null ? `<span class="badge badge-dist">${c.distanceKm.toFixed(1)} km</span>` : ''}
+        <span class="badge ${capacityBadgeClass(c.on_leave ? 'leave' : c.capacity_1_2wk)}">${capacityLabel(c)}</span>
+      </div>
+    `;
+    card.addEventListener('click', () => {
+      map.setView([c.lat, c.lon], 13);
+      marker.openPopup();
+    });
+    resultsEl.appendChild(card);
+  });
+
+  const statusEl = document.getElementById('status-line');
+  if (state.searchPoint) {
+    statusEl.textContent = `${withDistance.length} therapist${withDistance.length === 1 ? '' : 's'} within ${state.radiusKm}km of ${state.searchLabel}`;
+  } else {
+    statusEl.textContent = `Showing all ${withDistance.length} active therapists. Search a suburb or click the map to filter by distance.`;
+  }
+}
+
+loadData();
+</script>
+
+</body>
+</html>
