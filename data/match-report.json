@@ -1,0 +1,31 @@
+{
+ "total_clinicians": 18,
+ "geocode_failures": [],
+ "no_capacity_row_this_fortnight": [
+  {
+   "name": "Fangxing Lin",
+   "job_title": "Physiotherapist (contractor)",
+   "reason": "no row in this fortnight's capacity sheet"
+  },
+  {
+   "name": "Iman Rahbani",
+   "job_title": "Podiatrist (contractor)",
+   "reason": "no row in this fortnight's capacity sheet"
+  },
+  {
+   "name": "Kirsty Lei",
+   "job_title": "Senior Occupational Therapist",
+   "reason": "no row in this fortnight's capacity sheet"
+  },
+  {
+   "name": "Tomas Megalaa",
+   "job_title": "Podiatrist (contractor)",
+   "reason": "no row in this fortnight's capacity sheet"
+  },
+  {
+   "name": "Vincent Le",
+   "job_title": "Podiatrist (contractor)",
+   "reason": "no row in this fortnight's capacity sheet"
+  }
+ ]
+}
