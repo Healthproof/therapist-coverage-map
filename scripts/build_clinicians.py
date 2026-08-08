@@ -131,6 +131,17 @@ def load_roster(service):
     return roster
 
 
+# Text Jarvis (or the original manual setup) may leave in a cell before
+# real data has ever been written for that row. Treated as "no data yet",
+# never as a genuine "zero capacity" signal — a literal "0" only means
+# something once we know the feed has actually run for that clinician.
+PLACEHOLDER_VALUES = {"", "pending first run", "n/a", "tbd", "-"}
+
+
+def clean_capacity_field(v):
+    return None if v.strip().lower() in PLACEHOLDER_VALUES else v.strip()
+
+
 def load_capacity(service):
     rows = fetch_rows(service, CAPACITY_RANGE)
     capacity = {}
@@ -139,12 +150,17 @@ def load_capacity(service):
         name, next_avail, cap12, cap34, on_leave, last_updated = [c.strip() for c in row[:6]]
         if not name:
             continue
+        last_updated_clean = clean_capacity_field(last_updated)
+        # If this row has never actually been processed by the feed (no
+        # last_updated timestamp), don't trust capacity_1_2wk/3_4wk even if
+        # they contain something that looks like real data (e.g. a "0" left
+        # over from initial setup) — it hasn't been confirmed by a real run.
         capacity[norm_name(name)] = {
-            "next_available_date": next_avail or None,
-            "capacity_1_2wk": cap12 or None,
-            "capacity_3_4wk": cap34 or None,
+            "next_available_date": clean_capacity_field(next_avail),
+            "capacity_1_2wk": clean_capacity_field(cap12) if last_updated_clean else None,
+            "capacity_3_4wk": clean_capacity_field(cap34) if last_updated_clean else None,
             "on_leave": on_leave.strip().upper() == "TRUE",
-            "last_updated": last_updated or None,
+            "last_updated": last_updated_clean,
         }
     return capacity
 
