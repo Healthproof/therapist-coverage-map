@@ -1,34 +1,61 @@
 """
-Builds data/clinicians.json from:
-  - data/clinician-addresses-raw.csv   (name, discipline, suburb, postcode)
-  - data/capacity-raw.ods              (fortnightly 1-2wk / 3-4wk capacity, per clinician)
-  - data/nsw-suburbs.json              (static suburb -> lat/lon lookup)
+Builds data/clinicians.json from the live Google Sheet (Roster + Capacity
+tabs), replacing the old manual CSV/ODS workflow.
 
-This is a ONE-TIME starter build from the files you gave me. Going forward,
-the plan is for this same join to happen client-side in the browser against
-a published Google Sheet CSV (see docs/UPDATING.md) — this script exists so
-you have a working v1 today, and so you can re-run it later if you ever want
-a fresh static snapshot instead.
+Data flow:
+  Cliniko --(Jarvis/OpenClaw, weekdays 6am)--> Capacity tab
+  Reception --(manual, rare)-------------------> Roster tab
+  This script --(GitHub Action, weekdays)------> data/clinicians.json --> map
+
+Auth: a read-only Google service account. Its JSON key is expected in the
+GOOGLE_SHEETS_CREDENTIALS environment variable (set as a GitHub Actions
+secret — see .github/workflows/sync-capacity.yml). Never commit the key
+itself to the repo.
+
+The service account must be shared on the Sheet as Viewer. It should have
+no other permissions — it only ever reads.
 
 Output: data/clinicians.json (used by the map)
         data/match-report.json (anything that needs a human look)
 
-Usage:
+Usage (locally, for testing):
+    export GOOGLE_SHEETS_CREDENTIALS="$(cat path/to/service-account-key.json)"
+    export SHEET_ID="1DAwxaGtHBZkxUnCaSxUzqZht4onqC98B2p5Qb85Vsag"
     python3 scripts/build_clinicians.py
 """
 import json
+import os
 import re
+import sys
 import unicodedata
 from pathlib import Path
 
-import pandas as pd
+from google.oauth2 import service_account
+from googleapiclient.discovery import build
 
 ROOT = Path(__file__).resolve().parent.parent
-ADDR_CSV = ROOT / "data" / "clinician-addresses-raw.csv"
-CAPACITY_ODS = ROOT / "data" / "capacity-raw.ods"
 SUBURB_LOOKUP = ROOT / "data" / "nsw-suburbs.json"
 OUT_CLINICIANS = ROOT / "data" / "clinicians.json"
 OUT_REPORT = ROOT / "data" / "match-report.json"
+
+SHEET_ID = os.environ.get("SHEET_ID", "1DAwxaGtHBZkxUnCaSxUzqZht4onqC98B2p5Qb85Vsag")
+ROSTER_RANGE = "Roster!A2:E"
+CAPACITY_RANGE = "Capacity!A2:F"
+
+DISCIPLINE_CODE = {
+    "physio": "PT",
+    "ot": "OT",
+    "speech": "Speech",
+    "dietetics": "Dietetics",
+    "podiatry": "Podiatry",
+}
+DISCIPLINE_JOB_TITLE = {
+    "PT": "Physiotherapist",
+    "OT": "Occupational Therapist",
+    "Speech": "Speech Pathologist",
+    "Dietetics": "Dietitian",
+    "Podiatry": "Podiatrist",
+}
 
 
 def norm_suburb(s: str) -> str:
@@ -38,11 +65,9 @@ def norm_suburb(s: str) -> str:
     return s
 
 
-def norm_lastname(s: str) -> str:
-    # Strip accents/curly apostrophes etc so "Qi'En" vs "Qi’En" style
-    # differences don't break matching.
+def norm_name(s: str) -> str:
     s = unicodedata.normalize("NFKD", s).encode("ascii", "ignore").decode()
-    s = re.sub(r"[^A-Za-z]", "", s)
+    s = re.sub(r"\s+", " ", s).strip()
     return s.lower()
 
 
@@ -56,7 +81,6 @@ def geocode(suburb: str, postcode: str, lookup: dict):
     if key in lookup:
         hit = lookup[key]
         return hit["lat"], hit["lon"], "postcode+suburb"
-    # fall back to suburb name alone
     key2 = norm_suburb(suburb)
     if key2 in lookup:
         hit = lookup[key2]
@@ -64,88 +88,132 @@ def geocode(suburb: str, postcode: str, lookup: dict):
     return None, None, "no match"
 
 
-def load_capacity():
-    df = pd.read_excel(CAPACITY_ODS, engine="odf", sheet_name="Sheet1")
-    df = df[["Discipline", "Clinician ", "1-2 week capacity ", "3-4 week Capacity"]]
-    df = df.dropna(subset=["Clinician "])
-    by_lastname = {}
-    for _, row in df.iterrows():
-        full_name = str(row["Clinician "]).strip()
-        last = norm_lastname(full_name.split()[-1])
-        by_lastname[last] = {
-            "discipline_code": str(row["Discipline"]).strip(),
-            "capacity_1_2wk": str(row["1-2 week capacity "]).strip(),
-            "capacity_3_4wk": str(row["3-4 week Capacity"]).strip(),
-            "on_leave": "leave" in str(row["1-2 week capacity "]).strip().lower()
-            or "leave" in str(row["3-4 week Capacity"]).strip().lower(),
-            "source_name": full_name,
+def get_sheets_service():
+    creds_json = os.environ.get("GOOGLE_SHEETS_CREDENTIALS")
+    if not creds_json:
+        print("ERROR: GOOGLE_SHEETS_CREDENTIALS is not set.", file=sys.stderr)
+        sys.exit(1)
+    info = json.loads(creds_json)
+    creds = service_account.Credentials.from_service_account_info(
+        info, scopes=["https://www.googleapis.com/auth/spreadsheets.readonly"]
+    )
+    return build("sheets", "v4", credentials=creds)
+
+
+def fetch_rows(service, range_name):
+    result = (
+        service.spreadsheets()
+        .values()
+        .get(spreadsheetId=SHEET_ID, range=range_name)
+        .execute()
+    )
+    return result.get("values", [])
+
+
+def load_roster(service):
+    rows = fetch_rows(service, ROSTER_RANGE)
+    roster = {}
+    for row in rows:
+        row = row + [""] * (5 - len(row))
+        name, discipline, suburb, postcode, status = [c.strip() for c in row[:5]]
+        if not name:
+            continue
+        status_norm = status.strip().lower()
+        if status_norm not in ("active", "leave"):
+            continue
+        roster[norm_name(name)] = {
+            "name": name,
+            "discipline_code": DISCIPLINE_CODE.get(discipline.strip().lower()),
+            "suburb": suburb,
+            "postcode": postcode,
+            "extended_leave": status_norm == "leave",
         }
-    return by_lastname
+    return roster
+
+
+def load_capacity(service):
+    rows = fetch_rows(service, CAPACITY_RANGE)
+    capacity = {}
+    for row in rows:
+        row = row + [""] * (6 - len(row))
+        name, next_avail, cap12, cap34, on_leave, last_updated = [c.strip() for c in row[:6]]
+        if not name:
+            continue
+        capacity[norm_name(name)] = {
+            "next_available_date": next_avail or None,
+            "capacity_1_2wk": cap12 or None,
+            "capacity_3_4wk": cap34 or None,
+            "on_leave": on_leave.strip().upper() == "TRUE",
+            "last_updated": last_updated or None,
+        }
+    return capacity
 
 
 def main():
     lookup = load_suburb_lookup()
-    capacity_by_lastname = load_capacity()
+    service = get_sheets_service()
+
+    roster = load_roster(service)
+    capacity = load_capacity(service)
 
     clinicians = []
-    unmatched_capacity = []
     unmatched_geo = []
+    unmatched_capacity = []
+    unmatched_roster_row = []
 
-    with open(ADDR_CSV, encoding="utf-8-sig") as f:
-        import csv
+    for key, r in roster.items():
+        lat, lon, match_type = None, None, "no address"
+        if r["suburb"] and r["postcode"]:
+            lat, lon, match_type = geocode(r["suburb"], r["postcode"], lookup)
+        if lat is None:
+            unmatched_geo.append({"name": r["name"], "suburb": r["suburb"], "postcode": r["postcode"]})
 
-        reader = csv.DictReader(f)
-        for row in reader:
-            first = row["First name"].strip()
-            last = row["Last name"].strip()
-            full_name = f"{first} {last}"
-            job_title = row["Job title"].strip()
-            suburb = row["Employee address suburb"].strip()
-            postcode = row["Employee address postcode"].strip()
-            state = row["Employee address state"].strip()
+        cap = capacity.get(key)
+        if cap is None:
+            unmatched_capacity.append({"name": r["name"], "reason": "no matching row in Capacity tab — check the name matches Cliniko exactly"})
 
-            lat, lon, match_type = geocode(suburb, postcode, lookup)
-            if lat is None:
-                unmatched_geo.append({"name": full_name, "suburb": suburb, "postcode": postcode})
+        on_leave = r["extended_leave"] or (cap["on_leave"] if cap else False)
 
-            cap = capacity_by_lastname.get(norm_lastname(last))
-            if cap is None:
-                unmatched_capacity.append(
-                    {"name": full_name, "job_title": job_title, "reason": "no row in this fortnight's capacity sheet"}
-                )
+        clinicians.append({
+            "name": r["name"],
+            "job_title": DISCIPLINE_JOB_TITLE.get(r["discipline_code"], r["discipline_code"] or "Unspecified"),
+            "suburb": r["suburb"],
+            "postcode": r["postcode"],
+            "state": "NSW",
+            "lat": lat,
+            "lon": lon,
+            "geocode_match": match_type,
+            "discipline_code": r["discipline_code"],
+            "next_available_date": cap["next_available_date"] if cap else None,
+            "capacity_1_2wk": cap["capacity_1_2wk"] if cap else None,
+            "capacity_3_4wk": cap["capacity_3_4wk"] if cap else None,
+            "on_leave": on_leave,
+            "last_updated": cap["last_updated"] if cap else None,
+            "status": "active",
+        })
 
-            clinicians.append(
-                {
-                    "name": full_name,
-                    "job_title": job_title,
-                    "suburb": suburb,
-                    "postcode": postcode,
-                    "state": state,
-                    "lat": lat,
-                    "lon": lon,
-                    "geocode_match": match_type,
-                    "discipline_code": cap["discipline_code"] if cap else None,
-                    "capacity_1_2wk": cap["capacity_1_2wk"] if cap else None,
-                    "capacity_3_4wk": cap["capacity_3_4wk"] if cap else None,
-                    "on_leave": cap["on_leave"] if cap else False,
-                    "status": "active",
-                }
-            )
+    roster_keys = set(roster.keys())
+    for key, c in capacity.items():
+        if key not in roster_keys:
+            unmatched_roster_row.append({"capacity_tab_name": key})
 
     OUT_CLINICIANS.write_text(json.dumps(clinicians, indent=1), encoding="utf-8")
 
     report = {
         "total_clinicians": len(clinicians),
         "geocode_failures": unmatched_geo,
-        "no_capacity_row_this_fortnight": unmatched_capacity,
+        "no_capacity_row": unmatched_capacity,
+        "capacity_rows_with_no_roster_match": unmatched_roster_row,
     }
     OUT_REPORT.write_text(json.dumps(report, indent=1), encoding="utf-8")
 
     print(f"Wrote {len(clinicians)} clinicians to {OUT_CLINICIANS}")
     print(f"Geocode failures: {len(unmatched_geo)}")
-    print(f"No capacity row this fortnight: {len(unmatched_capacity)}")
+    print(f"No capacity row (name mismatch or feed hasn't run for them yet): {len(unmatched_capacity)}")
     for u in unmatched_capacity:
-        print(f"  - {u['name']} ({u['job_title']})")
+        print(f"  - {u['name']}")
+    if unmatched_roster_row:
+        print(f"Capacity rows with no roster match: {len(unmatched_roster_row)} (likely someone not yet added to Roster tab)")
 
 
 if __name__ == "__main__":
