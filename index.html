@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Healthproof Therapist Coverage Map</title>
-<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+<link rel="stylesheet" href="vendor/leaflet/leaflet.css" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
@@ -274,6 +274,60 @@
     flex-shrink:0;
   }
 
+  #lga-heat-legend{
+    display:none;
+    margin-top:10px;
+    padding-top:10px;
+    border-top:1px dashed var(--grey-line);
+  }
+  #lga-heat-legend .heat-bar{
+    height:8px;
+    border-radius:4px;
+    background:linear-gradient(to right, #f0f0f0, var(--blue));
+    margin-bottom:5px;
+  }
+  #lga-heat-legend .heat-labels{
+    display:flex;
+    justify-content:space-between;
+    font-size:11px;
+    color:var(--ink-soft);
+  }
+
+  .lga-card{
+    border:1px solid var(--grey-line);
+    border-left-width:4px;
+    border-left-color:var(--blue);
+    border-radius:8px;
+    padding:11px 13px;
+    margin-bottom:9px;
+    background:var(--white);
+    cursor:pointer;
+    transition:box-shadow 0.12s, transform 0.12s;
+  }
+  .lga-card:hover{
+    box-shadow:0 4px 14px rgba(13,15,17,0.08);
+    transform:translateY(-1px);
+  }
+  .lga-card.no-coverage{border-left-color:#c9cccf; opacity:0.7;}
+  .lga-name{
+    font-size:14px;
+    font-weight:600;
+    margin:0 0 5px;
+    color:var(--ink);
+  }
+  .lga-disc-row{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:5px;}
+  .lga-disc-badge{
+    font-size:10.5px;
+    font-weight:600;
+    padding:2px 7px;
+    border-radius:5px;
+    color:#fff;
+  }
+  .lga-meta{
+    font-size:11.5px;
+    color:var(--ink-soft);
+  }
+
   #map{flex:1;}
 
   .leaflet-popup-content-wrapper{border-radius:10px;}
@@ -342,6 +396,18 @@
       <label class="toggle-label"><input type="checkbox" id="hide-leave"> Hide staff on leave</label>
     </div>
 
+    <div class="filter-group">
+      <label class="toggle-label"><input type="checkbox" id="lga-heatmap-toggle"> Show LGA wait-time heatmap</label>
+      <div id="lga-heat-legend">
+        <div class="heat-bar"></div>
+        <div class="heat-labels"><span>Longer wait</span><span>Shortest wait</span></div>
+      </div>
+    </div>
+
+    <div class="filter-group">
+      <label class="toggle-label"><input type="checkbox" id="lga-list-toggle"> List: rank by shortest wait</label>
+    </div>
+
     <p class="hint" style="display:none; margin-top:10px;">LGA: <strong id="lga-name" style="color:var(--ink); font-weight:600;"></strong></p>
     <div id="status-line">Loading roster&hellip;</div>
     <ul id="results"></ul>
@@ -351,7 +417,7 @@
   <div id="map"></div>
 </div>
 
-<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="vendor/leaflet/leaflet.js"></script>
 <script>
 const DISCIPLINE_META = {
   PT:        { label: "Physio",     color: "var(--disc-pt)" },
@@ -387,6 +453,8 @@ const state = {
   activeDisciplines: new Set(),
   hideLeave: false,
   showAllRadius: true,
+  showLgaHeatmap: false,
+  lgaListView: false,
 };
 
 const map = L.map('map', { zoomControl: true }).setView([-33.86, 151.05], 10);
@@ -398,6 +466,7 @@ L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
 const markerLayer = L.layerGroup().addTo(map);
 const circleLayer = L.layerGroup().addTo(map);
 const lgaLayer = L.layerGroup().addTo(map);
+const lgaHeatLayer = L.layerGroup().addTo(map);
 let searchMarker = null;
 let lgaFeatures = [];
 
@@ -433,9 +502,142 @@ function findLGA(lat, lon) {
   }
   return null;
 }
+// Wait time in weeks until a clinician can next see someone.
+//
+// Once Corey's live feed is wired up, each clinician row carries
+// `next_available_date` (ISO date) straight from Cliniko — this is the
+// real, exact number and needs no guessing:
+function weeksWait(c) {
+  if (c.on_leave) return null;
+  if (c.next_available_date) {
+    const days = (new Date(c.next_available_date) - new Date()) / 86400000;
+    return Math.max(0, Math.ceil(days / 7));
+  }
+  // Fallback while still on the manual fortnightly export, which only
+  // tracks "any openings in the next 1-2wk" / "...3-4wk" as rough buckets
+  // rather than an exact date. This is scaffolding — it goes away once
+  // next_available_date is flowing from the live sheet.
+  if (c.discipline_code == null) return null;
+  const hasOpenings = v => v != null && String(v).trim() !== '0' && String(v).trim().toLowerCase() !== 'leave';
+  if (hasOpenings(c.capacity_1_2wk)) return 1;
+  if (hasOpenings(c.capacity_3_4wk)) return 3;
+  if (c.capacity_1_2wk == null && c.capacity_3_4wk == null) return null;
+  return 5; // both windows full → "4+ week wait"
+}
+
+function waitLabel(w, c) {
+  if (c && c.on_leave) return 'On leave';
+  if (w == null) return 'No wait-time data';
+  if (w >= 5) return '4+ week wait';
+  if (w <= 0) return 'Available now';
+  return `${w} week${w === 1 ? '' : 's'} wait`;
+}
+
+function waitBadgeClass(w) {
+  if (w == null) return 'badge-cap-unknown';
+  if (w <= 1) return 'badge-cap-good';
+  if (w <= 3) return 'badge-cap-tight';
+  return 'badge-cap-full';
+}
+
 function titleCaseLGA(name) {
   if (!name) return '';
   return name.replace(/\w\S*/g, w => w.charAt(0) + w.slice(1).toLowerCase());
+}
+
+// Aggregates a given list of (already filtered) clinicians into per-LGA
+// wait times, broken down by discipline. Every LGA in lgaFeatures is
+// included even with zero clinicians, so coverage gaps are visible too.
+// Per discipline, "shortestWait" is the soonest anyone in that LGA can
+// see someone — the number reception actually wants when routing a booking.
+function computeLgaStats(clinicianList) {
+  const stats = new Map();
+  lgaFeatures.forEach(f => {
+    stats.set(f.properties.name, {
+      geometry: f.geometry,
+      count: 0,
+      onLeaveCount: 0,
+      noDataCount: 0,
+      byDiscipline: {}
+    });
+  });
+
+  clinicianList.forEach(c => {
+    if (!c.lgaName || !stats.has(c.lgaName)) return;
+    const s = stats.get(c.lgaName);
+    s.count++;
+    if (c.on_leave) { s.onLeaveCount++; return; }
+    if (c.discipline_code == null) { s.noDataCount++; return; }
+    const w = weeksWait(c);
+    if (w == null) { s.noDataCount++; return; }
+    if (!s.byDiscipline[c.discipline_code]) {
+      s.byDiscipline[c.discipline_code] = { shortestWait: w, count: 0 };
+    }
+    const d = s.byDiscipline[c.discipline_code];
+    d.shortestWait = Math.min(d.shortestWait, w);
+    d.count++;
+  });
+
+  return stats;
+}
+
+function shortestOverallWait(s) {
+  const waits = Object.values(s.byDiscipline).map(d => d.shortestWait);
+  return waits.length ? Math.min(...waits) : null;
+}
+
+function lgaBreakdownHtml(name, s) {
+  const discRows = Object.entries(s.byDiscipline).map(([code, d]) => `
+    <div class="lga-disc-row">
+      <span class="lga-disc-badge" style="background:${disciplineColor(code)};">${disciplineLabel(code)}</span>
+      <span class="lga-meta">${d.count} clinician${d.count === 1 ? '' : 's'} &middot; ${waitLabel(d.shortestWait)}</span>
+    </div>
+  `).join('');
+  const extras = [];
+  if (s.onLeaveCount) extras.push(`${s.onLeaveCount} on leave`);
+  if (s.noDataCount) extras.push(`${s.noDataCount} no wait-time data`);
+  return `
+    <span class="popup-name">${titleCaseLGA(name)}</span><br>
+    ${s.count === 0
+      ? '<span class="lga-meta">No clinicians currently cover this LGA.</span>'
+      : `${discRows}${extras.length ? `<span class="lga-meta">${extras.join(' &middot; ')}</span>` : ''}`
+    }
+  `;
+}
+
+function renderLgaHeatmap(clinicianList) {
+  lgaHeatLayer.clearLayers();
+  if (!state.showLgaHeatmap) return;
+
+  const stats = computeLgaStats(clinicianList);
+  const waitsWithCoverage = [...stats.values()].map(shortestOverallWait).filter(w => w != null);
+  const worstWait = Math.max(1, ...waitsWithCoverage);
+
+  stats.forEach((s, name) => {
+    const shortest = shortestOverallWait(s);
+    const hasCoverage = shortest != null;
+    // Shorter wait = darker fill (more capacity, soonest availability).
+    const intensity = hasCoverage ? 1 - (shortest / worstWait) : 0;
+    const layer = L.geoJSON(s.geometry, {
+      style: hasCoverage ? {
+        color: '#0d0f11',
+        weight: 0.75,
+        opacity: 0.25,
+        fillColor: '#26a4ff',
+        fillOpacity: 0.12 + 0.6 * intensity
+      } : {
+        color: '#c9cccf',
+        weight: 0.75,
+        opacity: 0.4,
+        fillColor: '#c9cccf',
+        fillOpacity: 0.08,
+        dashArray: '3,4'
+      }
+    });
+    layer.bindTooltip(`${titleCaseLGA(name)} &middot; ${hasCoverage ? waitLabel(shortest) : 'No coverage'}`, { sticky: true });
+    layer.bindPopup(lgaBreakdownHtml(name, s));
+    layer.addTo(lgaHeatLayer);
+  });
 }
 
 function haversineKm(lat1, lon1, lat2, lon2) {
@@ -445,27 +647,6 @@ function haversineKm(lat1, lon1, lat2, lon2) {
   const dLon = toRad(lon2 - lon1);
   const a = Math.sin(dLat/2)**2 + Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon/2)**2;
   return R * 2 * Math.asin(Math.sqrt(a));
-}
-
-function capacityBadgeClass(value) {
-  if (value == null) return 'badge-cap-unknown';
-  const v = String(value).trim().toLowerCase();
-  if (v === 'leave') return 'badge-leave';
-  if (v === '0') return 'badge-cap-full';
-  if (v === '10++' || v === '10') return 'badge-cap-good';
-  const m = v.match(/(\d+)/);
-  if (m) {
-    const n = parseInt(m[1], 10);
-    if (n >= 6) return 'badge-cap-good';
-    if (n >= 1) return 'badge-cap-tight';
-  }
-  return 'badge-cap-unknown';
-}
-
-function capacityLabel(c) {
-  if (c.on_leave) return 'On leave';
-  if (c.discipline_code == null) return 'No capacity data this fortnight';
-  return `1&ndash;2wk: ${c.capacity_1_2wk}  &middot;  3&ndash;4wk: ${c.capacity_3_4wk}`;
 }
 
 async function loadData() {
@@ -489,6 +670,18 @@ async function loadData() {
     console.warn('LGA boundaries did not load — continuing without LGA highlighting.', err);
     lgaFeatures = [];
   }
+
+  // Tag each geocoded clinician with the LGA their suburb falls in, so
+  // capacity can be aggregated per-LGA without repeating this lookup on
+  // every render.
+  if (lgaFeatures.length) {
+    state.clinicians.forEach(c => {
+      if (c.lat == null) return;
+      const hit = findLGA(c.lat, c.lon);
+      c.lgaName = hit ? hit.properties.name : null;
+    });
+  }
+
   state.suburbNames = Object.values(suburbIndex)
     .map(v => `${v.suburb} ${v.postcode}`)
     .filter((v, i, arr) => arr.indexOf(v) === i)
@@ -625,6 +818,17 @@ document.getElementById('hide-leave').addEventListener('change', (e) => {
   render();
 });
 
+document.getElementById('lga-heatmap-toggle').addEventListener('change', (e) => {
+  state.showLgaHeatmap = e.target.checked;
+  document.getElementById('lga-heat-legend').style.display = e.target.checked ? 'block' : 'none';
+  render();
+});
+
+document.getElementById('lga-list-toggle').addEventListener('change', (e) => {
+  state.lgaListView = e.target.checked;
+  render();
+});
+
 function render() {
   markerLayer.clearLayers();
   circleLayer.clearLayers();
@@ -638,6 +842,8 @@ function render() {
     if (c.discipline_code && !state.activeDisciplines.has(c.discipline_code)) return false;
     return true;
   });
+
+  renderLgaHeatmap(visible);
 
   let withDistance = visible.map(c => {
     const dist = state.searchPoint
@@ -655,6 +861,7 @@ function render() {
 
   withDistance.forEach(c => {
     const color = disciplineColor(c.discipline_code);
+    const w = weeksWait(c);
     const marker = L.circleMarker([c.lat, c.lon], {
       radius: 7.5,
       color: c.on_leave ? '#a9adb1' : color,
@@ -667,7 +874,7 @@ function render() {
       <span class="popup-disc" style="background:${c.on_leave ? '#a9adb1' : color};">${disciplineLabel(c.discipline_code)}</span><br>
       ${c.job_title}<br>
       ${c.suburb} ${c.postcode}<br>
-      ${capacityLabel(c)}
+      ${waitLabel(w, c)}
       ${c.distanceKm != null ? `<br>${c.distanceKm.toFixed(1)} km from search point` : ''}
     `);
     marker.addTo(markerLayer);
@@ -683,26 +890,67 @@ function render() {
       }).addTo(circleLayer);
     }
 
-    const card = document.createElement('li');
-    card.className = 'result-card' + (c.on_leave ? ' on-leave' : '');
-    card.style.borderLeftColor = c.on_leave ? '#c9cccf' : color;
-    card.innerHTML = `
-      <p class="result-name">${c.name}</p>
-      <p class="result-meta">${disciplineLabel(c.discipline_code)} &middot; ${c.suburb} ${c.postcode}</p>
-      <div class="badge-row">
-        ${c.distanceKm != null ? `<span class="badge badge-dist">${c.distanceKm.toFixed(1)} km</span>` : ''}
-        <span class="badge ${capacityBadgeClass(c.on_leave ? 'leave' : c.capacity_1_2wk)}">${capacityLabel(c)}</span>
-      </div>
-    `;
-    card.addEventListener('click', () => {
-      map.setView([c.lat, c.lon], 13);
-      marker.openPopup();
-    });
-    resultsEl.appendChild(card);
+    if (!state.lgaListView) {
+      const card = document.createElement('li');
+      card.className = 'result-card' + (c.on_leave ? ' on-leave' : '');
+      card.style.borderLeftColor = c.on_leave ? '#c9cccf' : color;
+      card.innerHTML = `
+        <p class="result-name">${c.name}</p>
+        <p class="result-meta">${disciplineLabel(c.discipline_code)} &middot; ${c.suburb} ${c.postcode}</p>
+        <div class="badge-row">
+          ${c.distanceKm != null ? `<span class="badge badge-dist">${c.distanceKm.toFixed(1)} km</span>` : ''}
+          <span class="badge ${c.on_leave ? 'badge-leave' : waitBadgeClass(w)}">${waitLabel(w, c)}</span>
+        </div>
+      `;
+      card.addEventListener('click', () => {
+        map.setView([c.lat, c.lon], 13);
+        marker.openPopup();
+      });
+      resultsEl.appendChild(card);
+    }
   });
 
   const statusEl = document.getElementById('status-line');
-  if (state.searchPoint) {
+
+  if (state.lgaListView) {
+    const stats = computeLgaStats(visible);
+    const ranked = [...stats.entries()]
+      .map(([name, s]) => ({ name, shortest: shortestOverallWait(s), ...s }))
+      .sort((a, b) => {
+        if (a.shortest == null && b.shortest == null) return 0;
+        if (a.shortest == null) return 1;
+        if (b.shortest == null) return -1;
+        return a.shortest - b.shortest;
+      });
+
+    ranked.forEach(s => {
+      const hasCoverage = s.shortest != null;
+      const card = document.createElement('li');
+      card.className = 'lga-card' + (hasCoverage ? '' : ' no-coverage');
+      card.innerHTML = hasCoverage ? `
+        <p class="lga-name">${titleCaseLGA(s.name)}</p>
+        ${Object.entries(s.byDiscipline).map(([code, d]) => `
+          <div class="lga-disc-row">
+            <span class="lga-disc-badge" style="background:${disciplineColor(code)};">${disciplineLabel(code)}</span>
+            <span class="lga-meta">${d.count} clinician${d.count === 1 ? '' : 's'} &middot; ${waitLabel(d.shortestWait)}</span>
+          </div>
+        `).join('')}
+      ` : `
+        <p class="lga-name">${titleCaseLGA(s.name)}</p>
+        <p class="lga-meta">No clinicians currently cover this LGA</p>
+      `;
+      card.addEventListener('click', () => {
+        map.fitBounds(L.geoJSON(s.geometry).getBounds(), { padding: [20, 20] });
+        L.popup()
+          .setLatLng(L.geoJSON(s.geometry).getBounds().getCenter())
+          .setContent(lgaBreakdownHtml(s.name, s))
+          .openOn(map);
+      });
+      resultsEl.appendChild(card);
+    });
+
+    statusEl.textContent = `Ranking ${ranked.length} LGAs by shortest wait time${state.searchPoint ? ' (within current filters)' : ''}.`;
+  } else if (state.searchPoint) {
     statusEl.textContent = `${withDistance.length} therapist${withDistance.length === 1 ? '' : 's'} within ${state.radiusKm}km of ${state.searchLabel}`;
   } else {
     statusEl.textContent = `Showing all ${withDistance.length} active therapists. Search a suburb or click the map to filter by distance.`;
