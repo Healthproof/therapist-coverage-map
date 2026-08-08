@@ -1,2 +1,2 @@
-pandas
-odfpy
+google-api-python-client
+google-auth
