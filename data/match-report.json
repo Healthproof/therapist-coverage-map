@@ -1,6 +1,11 @@
 {
  "total_clinicians": 17,
  "geocode_failures": [],
- "no_capacity_row": [],
+ "no_capacity_row": [
+  {
+   "name": "Iman Rahbani",
+   "reason": "no matching row in Capacity tab \u2014 check the name matches Cliniko exactly"
+  }
+ ],
  "capacity_rows_with_no_roster_match": []
 }
