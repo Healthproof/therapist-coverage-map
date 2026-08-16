@@ -34,6 +34,13 @@
     --cap-full:#d13b3b;
     --cap-full-bg:#fce9e9;
     --cap-unknown-bg:#f0f0f0;
+
+    --util-under:#c67c11;
+    --util-under-bg:#fdf2e0;
+    --util-on:#1c9d6f;
+    --util-on-bg:#e4f6ee;
+    --util-over:#d13b3b;
+    --util-over-bg:#fce9e9;
   }
   *{box-sizing:border-box;}
   body{
@@ -173,6 +180,139 @@
   input[type="range"]{width:100%;accent-color:var(--blue);}
 
   .filter-group{margin-top:18px;}
+  .sort-select{
+    width:100%;
+    padding:9px 12px;
+    font-size:13.5px;
+    border:1.5px solid var(--grey-line);
+    border-radius:8px;
+    background:var(--white);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+    cursor:pointer;
+  }
+  .sort-select:focus{outline:none;border-color:var(--blue);}
+
+  .enquiry-btn{
+    width:100%;
+    padding:11px 14px;
+    margin-top:16px;
+    font-size:13.5px;
+    font-weight:600;
+    font-family:'Inter',sans-serif;
+    color:#fff;
+    background:var(--orange);
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    transition:background 0.15s;
+  }
+  .enquiry-btn:hover{background:#e6721c;}
+
+  .enquiry-overlay{
+    position:fixed;
+    inset:0;
+    background:rgba(13,15,17,0.45);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    z-index:2000;
+    padding:20px;
+  }
+  .enquiry-modal{
+    background:var(--white);
+    border-radius:12px;
+    width:100%;
+    max-width:420px;
+    max-height:88vh;
+    overflow-y:auto;
+    box-shadow:0 12px 40px rgba(13,15,17,0.25);
+  }
+  .enquiry-modal-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:16px 20px;
+    border-bottom:1px solid var(--grey-line);
+    font-family:'Poppins',sans-serif;
+    font-weight:600;
+    font-size:15px;
+    color:var(--ink);
+    position:sticky;
+    top:0;
+    background:var(--white);
+    border-radius:12px 12px 0 0;
+  }
+  .enquiry-close{
+    background:none;
+    border:none;
+    font-size:20px;
+    line-height:1;
+    color:var(--ink-soft);
+    cursor:pointer;
+    padding:2px 4px;
+  }
+  .enquiry-body{padding:18px 20px 20px;}
+  .enquiry-field{margin-bottom:13px;}
+  .enquiry-field label{
+    display:block;
+    font-size:11px;
+    text-transform:uppercase;
+    letter-spacing:0.6px;
+    font-weight:600;
+    color:var(--ink-soft);
+    margin-bottom:5px;
+  }
+  .enquiry-field .req{color:var(--util-over);}
+  .enquiry-field input[type="text"],
+  .enquiry-field input[type="email"],
+  .enquiry-field input[type="tel"],
+  .enquiry-field select{
+    width:100%;
+    padding:9px 11px;
+    font-size:13.5px;
+    border:1.5px solid var(--grey-line);
+    border-radius:7px;
+    background:var(--white);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+  }
+  .enquiry-field input:focus,
+  .enquiry-field select:focus{outline:none;border-color:var(--blue);}
+  .enquiry-hint{font-size:11px;color:var(--ink-soft);margin-top:4px;}
+  .enquiry-submit-btn{
+    width:100%;
+    padding:11px 14px;
+    margin-top:6px;
+    font-size:13.5px;
+    font-weight:600;
+    font-family:'Inter',sans-serif;
+    color:#fff;
+    background:var(--blue);
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+  }
+  .enquiry-submit-btn:hover{background:var(--blue-deep);}
+  .enquiry-submit-btn:disabled{opacity:0.6;cursor:not-allowed;}
+  .enquiry-success{
+    padding:18px 20px 22px;
+    text-align:center;
+  }
+  .enquiry-success .check{
+    width:40px;height:40px;border-radius:50%;
+    background:var(--util-on-bg);
+    color:var(--util-on);
+    display:flex;align-items:center;justify-content:center;
+    font-size:20px;
+    margin:0 auto 10px;
+  }
+  .enquiry-error{
+    font-size:12px;
+    color:var(--util-over);
+    margin-top:8px;
+    display:none;
+  }
   .chip-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;}
   .chip{
     font-size:12px;
@@ -262,6 +402,10 @@
   .badge-cap-full{background:var(--cap-full-bg);color:var(--cap-full);}
   .badge-cap-unknown{background:var(--cap-unknown-bg);color:var(--ink-soft);}
   .badge-leave{background:var(--cap-unknown-bg);color:var(--ink-soft);}
+  .badge-util-under{background:var(--util-under-bg);color:var(--util-under);}
+  .badge-util-on{background:var(--util-on-bg);color:var(--util-on);}
+  .badge-util-over{background:var(--util-over-bg);color:var(--util-over);}
+  .badge-util-unknown{background:var(--cap-unknown-bg);color:var(--ink-soft);}
 
   #legend{
     margin-top:18px;
@@ -385,16 +529,17 @@
 <div class="layout">
   <div class="sidebar">
     <label class="field-label" for="suburb-input">Search a suburb</label>
-    <input id="suburb-input" type="text" placeholder="e.g. Parramatta" autocomplete="off">
+    <input id="suburb-input" type="text" placeholder="" autocomplete="off">
     <ul id="suggestions"></ul>
     <p class="hint">Or click anywhere on the map to drop a pin.</p>
+    <button type="button" id="enquiry-open-btn" class="enquiry-btn">Log a capacity enquiry</button>
 
     <div class="controls-row">
-      <label class="toggle-label"><input type="checkbox" id="show-all-radius" checked> Show 25km coverage circles</label>
+      <label class="toggle-label"><input type="checkbox" id="show-all-radius" checked> Show 30km coverage circles</label>
     </div>
     <label class="field-label" style="margin-top:12px;">Search radius (km)</label>
-    <input type="range" id="radius-slider" min="5" max="60" value="25" step="5">
-    <div class="radius-value" id="radius-value">25 km</div>
+    <input type="range" id="radius-slider" min="5" max="60" value="30" step="5">
+    <div class="radius-value" id="radius-value">30 km</div>
 
     <div class="filter-group">
       <span class="field-label">Discipline</span>
@@ -403,6 +548,19 @@
 
     <div class="filter-group">
       <label class="toggle-label"><input type="checkbox" id="hide-leave"> Hide staff on leave</label>
+    </div>
+
+    <div class="filter-group">
+      <label class="toggle-label"><input type="checkbox" id="needs-referrals"> Needs referrals only (under utilisation target)</label>
+    </div>
+
+    <div class="filter-group">
+      <span class="field-label">Sort by</span>
+      <select id="sort-mode" class="sort-select">
+        <option value="default">Distance / name</option>
+        <option value="wait">Soonest available</option>
+        <option value="priority">Prioritise for referrals</option>
+      </select>
     </div>
 
     <div class="filter-group">
@@ -424,6 +582,92 @@
     <div id="legend"></div>
   </div>
   <div id="map"></div>
+</div>
+
+<!--
+  Zoho CRM Web-to-Lead — "Capacity Enquiry" form (Leads module).
+  Built natively (not an iframe embed) so it can reuse the map's own
+  suburb search and discipline filter instead of a disconnected Zoho
+  widget. Submits via fetch() straight to Zoho's endpoint, same as
+  Zoho's own generated code — the hidden field names/values below
+  (xnQsjsdp, zc_gad, xmIwtLD, actionType, returnURL, the honeypot
+  field) are exactly what Zoho's form config expects and must not be
+  changed unless the Zoho form itself is edited/republished, in which
+  case these tokens will need updating to match.
+-->
+<div id="enquiry-overlay" class="enquiry-overlay" style="display:none;">
+  <div class="enquiry-modal">
+    <div class="enquiry-modal-header">
+      <span>Log a capacity enquiry</span>
+      <button type="button" id="enquiry-close-btn" class="enquiry-close" aria-label="Close">&times;</button>
+    </div>
+
+    <form id="enquiry-form" class="enquiry-body" novalidate>
+      <!-- Do not remove these hidden fields — required by Zoho. -->
+      <input type="text" style="display:none;" name="xnQsjsdp" value="da84580afa5f63bde8658339786248de8b14cd28f6e388dc8cf2660c312698b3">
+      <input type="hidden" name="zc_gad" id="zc_gad" value="">
+      <input type="text" style="display:none;" name="xmIwtLD" value="ceaf74fbf654309144bf7489e0fb177715b29c2edc9743c97af7bd369f34d93c0c67eb402c6c8272f2db81ee96b6e5fb">
+      <input type="text" style="display:none;" name="actionType" value="TGVhZHM=">
+      <input type="text" style="display:none;" name="returnURL" value="null">
+      <!-- Honeypot spam trap — must always stay empty. -->
+      <input type="text" style="display:none;" name="aG9uZXlwb3Q" value="" tabindex="-1" autocomplete="off">
+
+      <div class="enquiry-field">
+        <label for="enq-first-name">First name</label>
+        <input type="text" id="enq-first-name" name="First Name" maxlength="40">
+      </div>
+      <div class="enquiry-field">
+        <label for="enq-last-name">Last name <span class="req">*</span></label>
+        <input type="text" id="enq-last-name" name="Last Name" maxlength="80" required>
+      </div>
+      <div class="enquiry-field">
+        <label for="enq-company">Company</label>
+        <input type="text" id="enq-company" name="Company" maxlength="200">
+      </div>
+      <div class="enquiry-field">
+        <label for="enq-phone">Phone</label>
+        <input type="tel" id="enq-phone" name="Phone" maxlength="30">
+      </div>
+      <div class="enquiry-field">
+        <label for="enq-email">Email</label>
+        <input type="email" id="enq-email" name="Email" ftype="email" maxlength="100">
+      </div>
+      <div class="enquiry-field">
+        <label for="enq-suburb">Suburb</label>
+        <input type="text" id="enq-suburb" name="LEADCF24" maxlength="255">
+        <div class="enquiry-hint" id="enq-suburb-hint" style="display:none;">Filled in from your current search — edit if needed.</div>
+      </div>
+      <div class="enquiry-field">
+        <label for="enq-discipline">Discipline</label>
+        <select id="enq-discipline" name="LEADCF25">
+          <option value="-None-">-None-</option>
+          <option value="Physio">Physio</option>
+          <option value="OT">OT</option>
+          <option value="Speech">Speech</option>
+          <option value="Dietetics">Dietetics</option>
+          <option value="Podiatry">Podiatry</option>
+        </select>
+      </div>
+      <div class="enquiry-field">
+        <label for="enq-capacity">Capacity</label>
+        <select id="enq-capacity" name="LEADCF26">
+          <option value="-None-">-None-</option>
+          <option value="&lt;1-2 weeks">&lt;1-2 weeks</option>
+          <option value="&gt;3-4 weeks">&gt;3-4 weeks</option>
+          <option value="No Capacity">No Capacity</option>
+        </select>
+        <div class="enquiry-hint" id="enq-capacity-hint" style="display:none;">Filled in from the soonest wait currently showing — edit if needed.</div>
+      </div>
+
+      <button type="submit" id="enquiry-submit-btn" class="enquiry-submit-btn">Submit enquiry</button>
+      <div class="enquiry-error" id="enquiry-error"></div>
+    </form>
+
+    <div id="enquiry-success" class="enquiry-success" style="display:none;">
+      <div class="check">&#10003;</div>
+      <div id="enquiry-success-text" style="font-weight:600;color:var(--ink);">Logged</div>
+    </div>
+  </div>
 </div>
 
 <script src="vendor/leaflet/leaflet.js"></script>
@@ -458,9 +702,11 @@ const state = {
   suburbNames: [],
   searchPoint: null,
   searchLabel: null,
-  radiusKm: 25,
+  radiusKm: 30,
   activeDisciplines: new Set(),
   hideLeave: false,
+  needsReferralsOnly: false,
+  sortMode: 'default', // 'default' | 'wait' | 'priority'
   showAllRadius: true,
   showLgaHeatmap: false,
   lgaListView: false,
@@ -547,6 +793,70 @@ function waitBadgeClass(w) {
   if (w <= 1) return 'badge-cap-good';
   if (w <= 3) return 'badge-cap-tight';
   return 'badge-cap-full';
+}
+
+// Utilisation: rolling-average % of available hours that were billable,
+// against each clinician's target band (e.g. "55-65%"). This is a
+// separate signal from weeksWait() — it doesn't say how soon someone
+// can be booked, it says whether they need more referrals directed to
+// them at all. Fields expected on each clinician once Corey/Jarvis wire
+// this up: `utilisation_pct` (number) and `utilisation_target` (string,
+// e.g. "55-65%"). Both are null-safe — the badge just won't render
+// until real data is flowing.
+function parseTargetBand(target) {
+  if (!target) return null;
+  const m = String(target).match(/([\d.]+)\s*-\s*([\d.]+)/);
+  if (!m) return null;
+  return { low: parseFloat(m[1]), high: parseFloat(m[2]) };
+}
+
+function utilisationStatus(c) {
+  if (c.on_leave) return null;
+  if (c.utilisation_pct == null) return null;
+  const band = parseTargetBand(c.utilisation_target);
+  if (!band) return null;
+  if (c.utilisation_pct < band.low) return 'under';
+  if (c.utilisation_pct > band.high) return 'over';
+  return 'on_target';
+}
+
+function utilisationLabel(c) {
+  if (c.on_leave) return null;
+  if (c.utilisation_pct == null) return 'No utilisation data';
+  const status = utilisationStatus(c);
+  const pct = `${c.utilisation_pct.toFixed(0)}%`;
+  if (status === 'under') return `${pct} \u00b7 Under target`;
+  if (status === 'over') return `${pct} \u00b7 Over target`;
+  if (status === 'on_target') return `${pct} \u00b7 On target`;
+  return pct;
+}
+
+function utilisationBadgeClass(c) {
+  const status = utilisationStatus(c);
+  if (status === 'under') return 'badge-util-under';
+  if (status === 'over') return 'badge-util-over';
+  if (status === 'on_target') return 'badge-util-on';
+  return 'badge-util-unknown';
+}
+
+// Combined referral-priority score for the "Prioritise for referrals"
+// sort: clinicians who are furthest under their utilisation target,
+// tie-broken by who can see someone soonest. Lower score = higher
+// priority. Clinicians with no utilisation data sort after everyone
+// who has it, since we can't judge their priority.
+const PRIORITY_NO_DATA = 1e9;
+const PRIORITY_NOT_UNDER_TARGET = 1e6;
+
+function priorityScore(c) {
+  const w = weeksWait(c);
+  if (c.on_leave) return PRIORITY_NO_DATA;
+  const band = parseTargetBand(c.utilisation_target);
+  if (c.utilisation_pct == null || !band) return PRIORITY_NO_DATA;
+  const gapBelowTarget = band.low - c.utilisation_pct; // positive = under target
+  if (gapBelowTarget <= 0) return PRIORITY_NOT_UNDER_TARGET; // on/over target: deprioritised, but still ranked ahead of "no data"
+  // Bigger gap = more urgent = should sort first, so negate it.
+  // Wait time is a much smaller tie-breaker (weeks, not %-points).
+  return -gapBelowTarget * 10 + (w == null ? 0 : w);
 }
 
 // Formats an ISO date ("2026-08-10") as "Mon 10 Aug" for display next to
@@ -837,6 +1147,16 @@ document.getElementById('hide-leave').addEventListener('change', (e) => {
   render();
 });
 
+document.getElementById('needs-referrals').addEventListener('change', (e) => {
+  state.needsReferralsOnly = e.target.checked;
+  render();
+});
+
+document.getElementById('sort-mode').addEventListener('change', (e) => {
+  state.sortMode = e.target.value;
+  render();
+});
+
 document.getElementById('lga-heatmap-toggle').addEventListener('change', (e) => {
   state.showLgaHeatmap = e.target.checked;
   document.getElementById('lga-heat-legend').style.display = e.target.checked ? 'block' : 'none';
@@ -848,19 +1168,44 @@ document.getElementById('lga-list-toggle').addEventListener('change', (e) => {
   render();
 });
 
+// Same active/leave/discipline/radius filtering used by render()'s
+// results list — factored out so the enquiry modal's "soonest wait
+// currently showing" auto-fill matches exactly what's on screen.
+function getVisibleClinicians() {
+  const visible = state.clinicians.filter(c => {
+    if (c.status !== 'active') return false;
+    if (c.lat == null) return false;
+    if (state.hideLeave && c.on_leave) return false;
+    if (c.discipline_code && !state.activeDisciplines.has(c.discipline_code)) return false;
+    if (state.needsReferralsOnly && utilisationStatus(c) !== 'under') return false;
+    return true;
+  });
+  if (!state.searchPoint) return visible;
+  return visible.filter(c =>
+    haversineKm(state.searchPoint.lat, state.searchPoint.lon, c.lat, c.lon) <= state.radiusKm
+  );
+}
+
+// Soonest wait among whatever's currently visible in the results list,
+// mapped to the exact picklist values the Zoho "Capacity" field expects.
+// Returns null (not a guess) if there's nothing to base it on.
+function soonestVisibleCapacityValue() {
+  const visible = getVisibleClinicians();
+  const waits = visible.map(weeksWait).filter(w => w != null);
+  if (!waits.length) return null;
+  const w = Math.min(...waits);
+  if (w <= 2) return '<1-2 weeks';
+  if (w < 5) return '>3-4 weeks';
+  return 'No Capacity';
+}
+
 function render() {
   markerLayer.clearLayers();
   circleLayer.clearLayers();
   const resultsEl = document.getElementById('results');
   resultsEl.innerHTML = '';
 
-  const visible = state.clinicians.filter(c => {
-    if (c.status !== 'active') return false;
-    if (c.lat == null) return false;
-    if (state.hideLeave && c.on_leave) return false;
-    if (c.discipline_code && !state.activeDisciplines.has(c.discipline_code)) return false;
-    return true;
-  });
+  const visible = getVisibleClinicians();
 
   renderLgaHeatmap(visible);
 
@@ -873,6 +1218,19 @@ function render() {
 
   if (state.searchPoint) {
     withDistance = withDistance.filter(c => c.distanceKm <= state.radiusKm);
+  }
+
+  if (state.sortMode === 'wait') {
+    withDistance.sort((a, b) => {
+      const wa = weeksWait(a), wb = weeksWait(b);
+      if (wa == null && wb == null) return a.name.localeCompare(b.name);
+      if (wa == null) return 1;
+      if (wb == null) return -1;
+      return wa - wb;
+    });
+  } else if (state.sortMode === 'priority') {
+    withDistance.sort((a, b) => priorityScore(a) - priorityScore(b));
+  } else if (state.searchPoint) {
     withDistance.sort((a, b) => a.distanceKm - b.distanceKm);
   } else {
     withDistance.sort((a, b) => a.name.localeCompare(b.name));
@@ -888,19 +1246,21 @@ function render() {
       fillOpacity: c.on_leave ? 0.45 : 0.9,
       weight: 2
     });
+    const utilLabel = utilisationLabel(c);
     marker.bindPopup(`
       <span class="popup-name">${c.name}</span>
       <span class="popup-disc" style="background:${c.on_leave ? '#a9adb1' : color};">${disciplineLabel(c.discipline_code)}</span><br>
       ${c.job_title}<br>
       ${c.suburb} ${c.postcode}<br>
       ${waitLabel(w, c)}${!c.on_leave && formatNextAvailable(c) ? ` <span class="popup-next-date">(next: ${formatNextAvailable(c)})</span>` : ''}
+      ${!c.on_leave && utilLabel ? `<br>${utilLabel}` : ''}
       ${c.distanceKm != null ? `<br>${c.distanceKm.toFixed(1)} km from search point` : ''}
     `);
     marker.addTo(markerLayer);
 
     if (state.showAllRadius) {
       L.circle([c.lat, c.lon], {
-        radius: 25000,
+        radius: 30000,
         color: c.on_leave ? '#c9cccf' : color,
         weight: 1.25,
         fillColor: color,
@@ -919,6 +1279,7 @@ function render() {
         <div class="badge-row">
           ${c.distanceKm != null ? `<span class="badge badge-dist">${c.distanceKm.toFixed(1)} km</span>` : ''}
           <span class="badge ${c.on_leave ? 'badge-leave' : waitBadgeClass(w)}">${waitLabel(w, c)}</span>
+          ${!c.on_leave && utilisationStatus(c) ? `<span class="badge ${utilisationBadgeClass(c)}">${utilisationLabel(c)}</span>` : ''}
         </div>
         ${!c.on_leave && formatNextAvailable(c) ? `<p class="result-next-date">Next available: ${formatNextAvailable(c)}</p>` : ''}
       `;
@@ -976,6 +1337,115 @@ function render() {
     statusEl.textContent = `Showing all ${withDistance.length} active therapists. Search a suburb or click the map to filter by distance.`;
   }
 }
+
+// --- Capacity enquiry modal (Zoho CRM Web-to-Lead) ---
+const enquiryOverlay = document.getElementById('enquiry-overlay');
+const enquiryForm = document.getElementById('enquiry-form');
+const enquirySuccess = document.getElementById('enquiry-success');
+const enquirySubmitBtn = document.getElementById('enquiry-submit-btn');
+const enquiryError = document.getElementById('enquiry-error');
+
+function openEnquiryModal() {
+  enquiryForm.reset();
+  enquiryForm.style.display = '';
+  enquirySuccess.style.display = 'none';
+  enquiryError.style.display = 'none';
+  enquirySubmitBtn.disabled = false;
+
+  const suburbHint = document.getElementById('enq-suburb-hint');
+  const capacityHint = document.getElementById('enq-capacity-hint');
+
+  if (state.searchLabel) {
+    document.getElementById('enq-suburb').value = state.searchLabel;
+    suburbHint.style.display = '';
+  } else {
+    suburbHint.style.display = 'none';
+  }
+
+  const capacityValue = soonestVisibleCapacityValue();
+  if (capacityValue) {
+    document.getElementById('enq-capacity').value = capacityValue;
+    capacityHint.style.display = '';
+  } else {
+    capacityHint.style.display = 'none';
+  }
+
+  enquiryOverlay.style.display = 'flex';
+}
+
+function closeEnquiryModal() {
+  enquiryOverlay.style.display = 'none';
+}
+
+document.getElementById('enquiry-open-btn').addEventListener('click', openEnquiryModal);
+document.getElementById('enquiry-close-btn').addEventListener('click', closeEnquiryModal);
+enquiryOverlay.addEventListener('click', (e) => {
+  if (e.target === enquiryOverlay) closeEnquiryModal();
+});
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape' && enquiryOverlay.style.display !== 'none') closeEnquiryModal();
+});
+
+function isValidEmail(val) {
+  const at = val.indexOf('@');
+  const dot = val.lastIndexOf('.');
+  return at >= 1 && dot >= at + 2 && dot + 2 < val.length;
+}
+
+enquiryForm.addEventListener('submit', (e) => {
+  e.preventDefault();
+  enquiryError.style.display = 'none';
+
+  const lastName = document.getElementById('enq-last-name').value.trim();
+  if (!lastName) {
+    enquiryError.textContent = 'Last name is required.';
+    enquiryError.style.display = '';
+    document.getElementById('enq-last-name').focus();
+    return;
+  }
+  const email = document.getElementById('enq-email').value.trim();
+  if (email && !isValidEmail(email)) {
+    enquiryError.textContent = 'Please enter a valid email address.';
+    enquiryError.style.display = '';
+    document.getElementById('enq-email').focus();
+    return;
+  }
+
+  enquirySubmitBtn.disabled = true;
+  const formData = new FormData(enquiryForm);
+
+  fetch('https://crm.zoho.com.au/crm/WebToLeadForm', {
+    method: 'POST',
+    body: formData,
+    cache: 'no-cache'
+  })
+    .then(response => {
+      const contentType = response.headers.get('Content-Type') || '';
+      return contentType.includes('application/json') ? response.json() : response.text();
+    })
+    .then(data => {
+      // Zoho's newer web forms respond with JSON describing what to do
+      // next; "Splash Message" is a genuine confirmation the Lead was
+      // saved. Anything else (captcha error, validation error) we
+      // surface plainly rather than pretending it succeeded.
+      if (typeof data === 'object' && data.actionsubmit === 'Splash Message' && !(data.invalidCaptcha === 'true')) {
+        enquiryForm.style.display = 'none';
+        enquirySuccess.style.display = '';
+        document.getElementById('enquiry-success-text').textContent = data.actionvalue || 'Enquiry logged.';
+        enquiryForm.reset();
+        setTimeout(closeEnquiryModal, 2500);
+      } else {
+        enquiryError.textContent = (typeof data === 'object' && data.actionvalue) || 'Something went wrong submitting this — please try again.';
+        enquiryError.style.display = '';
+        enquirySubmitBtn.disabled = false;
+      }
+    })
+    .catch(() => {
+      enquiryError.textContent = 'Couldn\u2019t reach Zoho \u2014 check your connection and try again.';
+      enquiryError.style.display = '';
+      enquirySubmitBtn.disabled = false;
+    });
+});
 
 loadData();
 </script>
