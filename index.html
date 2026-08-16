@@ -710,6 +710,30 @@
   .gen-copy-btn.copied{color:var(--cap-good);background:var(--cap-good-bg);}
 
   .gen-results{list-style:none;margin:0;padding:0;}
+  .gen-region-card{
+    background:var(--white);
+    border:1px solid var(--grey-line);
+    border-radius:10px;
+    padding:14px 16px;
+    margin-bottom:10px;
+  }
+  .gen-region-name{
+    font-family:'Poppins',sans-serif;
+    font-size:13.5px;
+    font-weight:600;
+    color:var(--blue-deep);
+    margin:0 0 10px;
+    text-transform:uppercase;
+    letter-spacing:0.3px;
+  }
+  .gen-lga-row{
+    display:flex;
+    align-items:flex-start;
+    gap:12px;
+    padding:8px 0;
+    border-top:1px solid var(--grey-line);
+  }
+  .gen-lga-row:first-of-type{border-top:none;padding-top:0;}
   .gen-result-card{
     display:flex;
     align-items:flex-start;
@@ -820,7 +844,7 @@
 <div class="view-panel" id="view-lga-gen" style="display:none;">
   <div class="lga-gen-wrap">
     <h2 class="lga-gen-title">LGA Identifier</h2>
-    <p class="hint" style="margin-bottom:18px;">Bulk-identify the Local Government Area (LGA) for a batch of patient suburbs, and get the matching Z0N_ Cliniko tags ready to apply &mdash; built for the daily calendar tagging run, so you're not looking each suburb up one by one.</p>
+    <p class="hint" style="margin-bottom:18px;">Bulk-identify which colloquial Sydney area (South Western Sydney, North Shore, etc.) a batch of patient suburbs falls into, with the matching Z0N_ Cliniko tags ready to apply underneath &mdash; built for the daily calendar tagging run, so you're not looking each suburb up one by one.</p>
 
     <div class="lga-gen-instructions">
       <p class="gen-instructions-title">How to use this</p>
@@ -828,7 +852,7 @@
         <li>Pull today's list of patient suburbs from the referrals/calendar you're tagging.</li>
         <li>Add them below &mdash; type each one into the search box and hit <strong>Add</strong> (or Enter), or paste the whole list at once using <strong>"Paste a list instead."</strong></li>
         <li>Check the chip list for anything marked <strong>(not found)</strong> in red &mdash; usually a typo or a suburb outside NSW &mdash; and fix or remove it.</li>
-        <li>Click <strong>Generate LGA tags</strong>. Each result card is one Cliniko tag (<code>Z0N_LGA Name</code>), with the suburbs that matched it listed underneath so you can spot-check.</li>
+        <li>Click <strong>Generate LGA tags</strong>. Suburbs are sorted into the colloquial Sydney areas your team uses (South Western Sydney, North Shore, etc.) so you can see the general spread at a glance &mdash; each area then lists the specific Cliniko tags (<code>Z0N_LGA Name</code>) underneath, with the matching suburbs so you can spot-check.</li>
         <li>Click <strong>Copy list</strong> to copy every tag name to your clipboard, then paste into Cliniko when applying the unavailable block types / appointment types for the day.</li>
         <li>Click <strong>Clear all</strong> to reset once you're done, ready for tomorrow's batch.</li>
       </ol>
@@ -1760,6 +1784,14 @@ document.querySelectorAll('.tab-btn').forEach(btn => {
 // numbered alphabetically by LGA name (see docs/UPDATING.md). All tags
 // currently share a single colour (#e7edf0) rather than one colour per
 // LGA, so only the tag name matters here.
+//
+// Results are grouped first by the *colloquial* Sydney region (the
+// informal names reception/planners actually use day to day — "South
+// Western Sydney", "North Shore" etc.) rather than by the raw 35 LGAs,
+// since scanning 35 individual councils to work out "what part of
+// Sydney is this" isn't useful at a glance. The specific Z0N_ Cliniko
+// tag for each underlying LGA is still shown nested under its region,
+// since that's the exact string that has to go into Cliniko.
 const LGA_TAG_ORDER = [
   'BAYSIDE COUNCIL',
   'BLACKTOWN CITY COUNCIL',
@@ -1803,6 +1835,76 @@ LGA_TAG_ORDER.forEach((name, i) => {
   LGA_TAG_MAP[name] = { tag: `Z${z}_${titleCaseLGA(name)}`, z };
 });
 const GEN_TAG_COLOR = '#e7edf0';
+
+// Colloquial Sydney regions, listed in a rough geographic sweep
+// (west -> south west -> north west -> north -> beaches -> inner ->
+// east -> south -> outliers). Fairfield and Canterbury-Bankstown are
+// grouped under South Western Sydney per team convention, even though
+// each straddles more than one informal "area" in general usage.
+const REGION_ORDER = [
+  'Western Sydney',
+  'South Western Sydney',
+  'North Western Sydney',
+  'Northern Sydney / North Shore',
+  'Northern Beaches',
+  'Inner West',
+  'Inner City / CBD',
+  'Eastern Suburbs',
+  'St George / South Sydney',
+  'Sutherland Shire / Southern Sydney',
+  'Blue Mountains',
+  'Central Coast',
+  'Unmapped'
+];
+const LGA_TO_REGION = {
+  'BLACKTOWN CITY COUNCIL': 'Western Sydney',
+  'CITY OF PARRAMATTA COUNCIL': 'Western Sydney',
+  'CUMBERLAND COUNCIL': 'Western Sydney',
+  'PENRITH CITY COUNCIL': 'Western Sydney',
+
+  'LIVERPOOL CITY COUNCIL': 'South Western Sydney',
+  'CAMPBELLTOWN CITY COUNCIL': 'South Western Sydney',
+  'CAMDEN COUNCIL': 'South Western Sydney',
+  'WOLLONDILLY SHIRE COUNCIL': 'South Western Sydney',
+  'FAIRFIELD CITY COUNCIL': 'South Western Sydney',
+  'CANTERBURY-BANKSTOWN COUNCIL': 'South Western Sydney',
+
+  'THE HILLS SHIRE COUNCIL': 'North Western Sydney',
+  'HAWKESBURY CITY COUNCIL': 'North Western Sydney',
+  'THE COUNCIL OF THE SHIRE OF HORNSBY': 'North Western Sydney',
+
+  'NORTH SYDNEY COUNCIL': 'Northern Sydney / North Shore',
+  'WILLOUGHBY CITY COUNCIL': 'Northern Sydney / North Shore',
+  'MOSMAN MUNICIPAL COUNCIL': 'Northern Sydney / North Shore',
+  'LANE COVE MUNICIPAL COUNCIL': 'Northern Sydney / North Shore',
+  'KU-RING-GAI COUNCIL': 'Northern Sydney / North Shore',
+  'THE COUNCIL OF THE MUNICIPALITY OF HUNTERS HILL': 'Northern Sydney / North Shore',
+  'RYDE CITY COUNCIL': 'Northern Sydney / North Shore',
+
+  'NORTHERN BEACHES COUNCIL': 'Northern Beaches',
+
+  'INNER WEST COUNCIL': 'Inner West',
+  'CITY OF CANADA BAY COUNCIL': 'Inner West',
+  'BURWOOD COUNCIL': 'Inner West',
+  'STRATHFIELD MUNICIPAL COUNCIL': 'Inner West',
+
+  'COUNCIL OF THE CITY OF SYDNEY': 'Inner City / CBD',
+
+  'RANDWICK CITY COUNCIL': 'Eastern Suburbs',
+  'WAVERLEY COUNCIL': 'Eastern Suburbs',
+  'WOOLLAHRA MUNICIPAL COUNCIL': 'Eastern Suburbs',
+
+  'GEORGES RIVER COUNCIL': 'St George / South Sydney',
+  'BAYSIDE COUNCIL': 'St George / South Sydney',
+
+  'SUTHERLAND SHIRE COUNCIL': 'Sutherland Shire / Southern Sydney',
+
+  'BLUE MOUNTAINS CITY COUNCIL': 'Blue Mountains',
+
+  'CENTRAL COAST COUNCIL': 'Central Coast',
+
+  'UNINCORPORATED': 'Unmapped'
+};
 
 const genState = { suburbs: [], lastTagList: [] };
 
@@ -1883,29 +1985,51 @@ function generateLgaTags() {
     unmatchedEl.style.display = 'none';
   }
 
-  const ranked = [...byLga.entries()].sort((a, b) => {
-    const za = LGA_TAG_MAP[a[0]] ? LGA_TAG_MAP[a[0]].z : '99';
-    const zb = LGA_TAG_MAP[b[0]] ? LGA_TAG_MAP[b[0]].z : '99';
-    return za.localeCompare(zb);
+  // Group the matched LGAs into their colloquial region.
+  const byRegion = new Map(); // region -> Map(lgaName -> [suburb labels])
+  byLga.forEach((labels, lgaName) => {
+    const region = LGA_TO_REGION[lgaName] || 'Unmapped';
+    if (!byRegion.has(region)) byRegion.set(region, new Map());
+    byRegion.get(region).set(lgaName, labels);
   });
 
-  if (!ranked.length) {
+  const rankedRegions = REGION_ORDER.filter(r => byRegion.has(r));
+
+  if (!rankedRegions.length) {
     resultsWrap.style.display = 'none';
     genState.lastTagList = [];
     return;
   }
 
-  ranked.forEach(([name, labels]) => {
-    const tagInfo = LGA_TAG_MAP[name];
-    const tagName = tagInfo ? tagInfo.tag : titleCaseLGA(name);
+  const allTags = [];
+
+  rankedRegions.forEach(region => {
+    const lgaMap = byRegion.get(region);
+    const lgaEntries = [...lgaMap.entries()].sort((a, b) => {
+      const za = LGA_TAG_MAP[a[0]] ? LGA_TAG_MAP[a[0]].z : '99';
+      const zb = LGA_TAG_MAP[b[0]] ? LGA_TAG_MAP[b[0]].z : '99';
+      return za.localeCompare(zb);
+    });
+
     const li = document.createElement('li');
-    li.className = 'gen-result-card';
+    li.className = 'gen-region-card';
+    const lgaRowsHtml = lgaEntries.map(([lgaName, labels]) => {
+      const tagInfo = LGA_TAG_MAP[lgaName];
+      const tagName = tagInfo ? tagInfo.tag : titleCaseLGA(lgaName);
+      allTags.push({ z: tagInfo ? tagInfo.z : '99', tag: tagName });
+      return `
+        <div class="gen-lga-row">
+          <span class="gen-swatch" style="background:${GEN_TAG_COLOR};"></span>
+          <div>
+            <p class="gen-result-name">${tagName}</p>
+            <p class="gen-result-meta">${labels.join(', ')}</p>
+          </div>
+        </div>
+      `;
+    }).join('');
     li.innerHTML = `
-      <span class="gen-swatch" style="background:${GEN_TAG_COLOR};"></span>
-      <div>
-        <p class="gen-result-name">${tagName}</p>
-        <p class="gen-result-meta">${labels.join(', ')}</p>
-      </div>
+      <p class="gen-region-name">${region}</p>
+      ${lgaRowsHtml}
     `;
     resultsList.appendChild(li);
   });
@@ -1914,7 +2038,8 @@ function generateLgaTags() {
   const copyBtn = document.getElementById('gen-copy-btn');
   copyBtn.textContent = 'Copy list';
   copyBtn.classList.remove('copied');
-  genState.lastTagList = ranked.map(([name]) => (LGA_TAG_MAP[name] ? LGA_TAG_MAP[name].tag : titleCaseLGA(name)));
+  allTags.sort((a, b) => a.z.localeCompare(b.z));
+  genState.lastTagList = allTags.map(t => t.tag);
 }
 
 document.getElementById('gen-suburb-input').addEventListener('input', (e) => {
