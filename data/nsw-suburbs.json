@@ -1,1084 +1,4 @@
 {
- "SYDNEY|1001": {
-  "suburb": "SYDNEY",
-  "postcode": "1001",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY": {
-  "suburb": "SYDNEY",
-  "postcode": "1001",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1002": {
-  "suburb": "SYDNEY",
-  "postcode": "1002",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1003": {
-  "suburb": "SYDNEY",
-  "postcode": "1003",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1004": {
-  "suburb": "SYDNEY",
-  "postcode": "1004",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1005": {
-  "suburb": "SYDNEY",
-  "postcode": "1005",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1006": {
-  "suburb": "SYDNEY",
-  "postcode": "1006",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1007": {
-  "suburb": "SYDNEY",
-  "postcode": "1007",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1008": {
-  "suburb": "SYDNEY",
-  "postcode": "1008",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1009": {
-  "suburb": "SYDNEY",
-  "postcode": "1009",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1010": {
-  "suburb": "SYDNEY",
-  "postcode": "1010",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1020": {
-  "suburb": "SYDNEY",
-  "postcode": "1020",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1021": {
-  "suburb": "SYDNEY",
-  "postcode": "1021",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1022": {
-  "suburb": "SYDNEY",
-  "postcode": "1022",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1023": {
-  "suburb": "SYDNEY",
-  "postcode": "1023",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1025": {
-  "suburb": "SYDNEY",
-  "postcode": "1025",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1026": {
-  "suburb": "SYDNEY",
-  "postcode": "1026",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1027": {
-  "suburb": "SYDNEY",
-  "postcode": "1027",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1028": {
-  "suburb": "SYDNEY",
-  "postcode": "1028",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1029": {
-  "suburb": "SYDNEY",
-  "postcode": "1029",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1030": {
-  "suburb": "SYDNEY",
-  "postcode": "1030",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1031": {
-  "suburb": "SYDNEY",
-  "postcode": "1031",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1032": {
-  "suburb": "SYDNEY",
-  "postcode": "1032",
-  "lat": -33.662834,
-  "lon": 150.874182
- },
- "SYDNEY|1033": {
-  "suburb": "SYDNEY",
-  "postcode": "1033",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1034": {
-  "suburb": "SYDNEY",
-  "postcode": "1034",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1035": {
-  "suburb": "SYDNEY",
-  "postcode": "1035",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1036": {
-  "suburb": "SYDNEY",
-  "postcode": "1036",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1037": {
-  "suburb": "SYDNEY",
-  "postcode": "1037",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1038": {
-  "suburb": "SYDNEY",
-  "postcode": "1038",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1039": {
-  "suburb": "SYDNEY",
-  "postcode": "1039",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1040": {
-  "suburb": "SYDNEY",
-  "postcode": "1040",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1041": {
-  "suburb": "SYDNEY",
-  "postcode": "1041",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1042": {
-  "suburb": "SYDNEY",
-  "postcode": "1042",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1043": {
-  "suburb": "SYDNEY",
-  "postcode": "1043",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1044": {
-  "suburb": "SYDNEY",
-  "postcode": "1044",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1045": {
-  "suburb": "SYDNEY",
-  "postcode": "1045",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1046": {
-  "suburb": "SYDNEY",
-  "postcode": "1046",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1100": {
-  "suburb": "SYDNEY",
-  "postcode": "1100",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1101": {
-  "suburb": "SYDNEY",
-  "postcode": "1101",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1105": {
-  "suburb": "SYDNEY",
-  "postcode": "1105",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1106": {
-  "suburb": "SYDNEY",
-  "postcode": "1106",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1107": {
-  "suburb": "SYDNEY",
-  "postcode": "1107",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1108": {
-  "suburb": "SYDNEY",
-  "postcode": "1108",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1109": {
-  "suburb": "SYDNEY",
-  "postcode": "1109",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1110": {
-  "suburb": "SYDNEY",
-  "postcode": "1110",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1112": {
-  "suburb": "SYDNEY",
-  "postcode": "1112",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1113": {
-  "suburb": "SYDNEY",
-  "postcode": "1113",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1114": {
-  "suburb": "SYDNEY",
-  "postcode": "1114",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1115": {
-  "suburb": "SYDNEY",
-  "postcode": "1115",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1116": {
-  "suburb": "SYDNEY",
-  "postcode": "1116",
-  "lat": -33.666729,
-  "lon": 150.866145
- },
- "SYDNEY|1117": {
-  "suburb": "SYDNEY",
-  "postcode": "1117",
-  "lat": -33.664575,
-  "lon": 150.87022
- },
- "SYDNEY|1118": {
-  "suburb": "SYDNEY",
-  "postcode": "1118",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1119": {
-  "suburb": "SYDNEY",
-  "postcode": "1119",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1120": {
-  "suburb": "SYDNEY",
-  "postcode": "1120",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1121": {
-  "suburb": "SYDNEY",
-  "postcode": "1121",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1122": {
-  "suburb": "SYDNEY",
-  "postcode": "1122",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1123": {
-  "suburb": "SYDNEY",
-  "postcode": "1123",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1124": {
-  "suburb": "SYDNEY",
-  "postcode": "1124",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1125": {
-  "suburb": "SYDNEY",
-  "postcode": "1125",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1126": {
-  "suburb": "SYDNEY",
-  "postcode": "1126",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1127": {
-  "suburb": "SYDNEY",
-  "postcode": "1127",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1128": {
-  "suburb": "SYDNEY",
-  "postcode": "1128",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1129": {
-  "suburb": "SYDNEY",
-  "postcode": "1129",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1130": {
-  "suburb": "SYDNEY",
-  "postcode": "1130",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1131": {
-  "suburb": "SYDNEY",
-  "postcode": "1131",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1132": {
-  "suburb": "SYDNEY",
-  "postcode": "1132",
-  "lat": -33.66279,
-  "lon": 150.874265
- },
- "SYDNEY|1133": {
-  "suburb": "SYDNEY",
-  "postcode": "1133",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1134": {
-  "suburb": "SYDNEY",
-  "postcode": "1134",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1135": {
-  "suburb": "SYDNEY",
-  "postcode": "1135",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1136": {
-  "suburb": "SYDNEY",
-  "postcode": "1136",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1137": {
-  "suburb": "SYDNEY",
-  "postcode": "1137",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1138": {
-  "suburb": "SYDNEY",
-  "postcode": "1138",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1139": {
-  "suburb": "SYDNEY",
-  "postcode": "1139",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1140": {
-  "suburb": "SYDNEY",
-  "postcode": "1140",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1141": {
-  "suburb": "SYDNEY",
-  "postcode": "1141",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1142": {
-  "suburb": "SYDNEY",
-  "postcode": "1142",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1143": {
-  "suburb": "SYDNEY",
-  "postcode": "1143",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1144": {
-  "suburb": "SYDNEY",
-  "postcode": "1144",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1145": {
-  "suburb": "SYDNEY",
-  "postcode": "1145",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1146": {
-  "suburb": "SYDNEY",
-  "postcode": "1146",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1147": {
-  "suburb": "SYDNEY",
-  "postcode": "1147",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1148": {
-  "suburb": "SYDNEY",
-  "postcode": "1148",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1149": {
-  "suburb": "SYDNEY",
-  "postcode": "1149",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1150": {
-  "suburb": "SYDNEY",
-  "postcode": "1150",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1151": {
-  "suburb": "SYDNEY",
-  "postcode": "1151",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1152": {
-  "suburb": "SYDNEY",
-  "postcode": "1152",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1153": {
-  "suburb": "SYDNEY",
-  "postcode": "1153",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1154": {
-  "suburb": "SYDNEY",
-  "postcode": "1154",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1155": {
-  "suburb": "SYDNEY",
-  "postcode": "1155",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1156": {
-  "suburb": "SYDNEY",
-  "postcode": "1156",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1157": {
-  "suburb": "SYDNEY",
-  "postcode": "1157",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1158": {
-  "suburb": "SYDNEY",
-  "postcode": "1158",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1159": {
-  "suburb": "SYDNEY",
-  "postcode": "1159",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1160": {
-  "suburb": "SYDNEY",
-  "postcode": "1160",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1161": {
-  "suburb": "SYDNEY",
-  "postcode": "1161",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1162": {
-  "suburb": "SYDNEY",
-  "postcode": "1162",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1163": {
-  "suburb": "SYDNEY",
-  "postcode": "1163",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1164": {
-  "suburb": "SYDNEY",
-  "postcode": "1164",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1165": {
-  "suburb": "SYDNEY",
-  "postcode": "1165",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1166": {
-  "suburb": "SYDNEY",
-  "postcode": "1166",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1167": {
-  "suburb": "SYDNEY",
-  "postcode": "1167",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1168": {
-  "suburb": "SYDNEY",
-  "postcode": "1168",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1169": {
-  "suburb": "SYDNEY",
-  "postcode": "1169",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1170": {
-  "suburb": "SYDNEY",
-  "postcode": "1170",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1171": {
-  "suburb": "SYDNEY",
-  "postcode": "1171",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1172": {
-  "suburb": "SYDNEY",
-  "postcode": "1172",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1173": {
-  "suburb": "SYDNEY",
-  "postcode": "1173",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1174": {
-  "suburb": "SYDNEY",
-  "postcode": "1174",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1175": {
-  "suburb": "SYDNEY",
-  "postcode": "1175",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1176": {
-  "suburb": "SYDNEY",
-  "postcode": "1176",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1177": {
-  "suburb": "SYDNEY",
-  "postcode": "1177",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1178": {
-  "suburb": "SYDNEY",
-  "postcode": "1178",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1179": {
-  "suburb": "SYDNEY",
-  "postcode": "1179",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1180": {
-  "suburb": "SYDNEY",
-  "postcode": "1180",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1181": {
-  "suburb": "SYDNEY",
-  "postcode": "1181",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1182": {
-  "suburb": "SYDNEY",
-  "postcode": "1182",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1183": {
-  "suburb": "SYDNEY",
-  "postcode": "1183",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1184": {
-  "suburb": "SYDNEY",
-  "postcode": "1184",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1185": {
-  "suburb": "SYDNEY",
-  "postcode": "1185",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1186": {
-  "suburb": "SYDNEY",
-  "postcode": "1186",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1187": {
-  "suburb": "SYDNEY",
-  "postcode": "1187",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1188": {
-  "suburb": "SYDNEY",
-  "postcode": "1188",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1189": {
-  "suburb": "SYDNEY",
-  "postcode": "1189",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1190": {
-  "suburb": "SYDNEY",
-  "postcode": "1190",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1191": {
-  "suburb": "SYDNEY",
-  "postcode": "1191",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1192": {
-  "suburb": "SYDNEY",
-  "postcode": "1192",
-  "lat": -34.790684,
-  "lon": 147.685283
- },
- "SYDNEY|1193": {
-  "suburb": "SYDNEY",
-  "postcode": "1193",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1194": {
-  "suburb": "SYDNEY",
-  "postcode": "1194",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1195": {
-  "suburb": "SYDNEY",
-  "postcode": "1195",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1196": {
-  "suburb": "SYDNEY",
-  "postcode": "1196",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1197": {
-  "suburb": "SYDNEY",
-  "postcode": "1197",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1198": {
-  "suburb": "SYDNEY",
-  "postcode": "1198",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1199": {
-  "suburb": "SYDNEY",
-  "postcode": "1199",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1201": {
-  "suburb": "SYDNEY",
-  "postcode": "1201",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1202": {
-  "suburb": "SYDNEY",
-  "postcode": "1202",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1203": {
-  "suburb": "SYDNEY",
-  "postcode": "1203",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1205": {
-  "suburb": "SYDNEY",
-  "postcode": "1205",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1207": {
-  "suburb": "SYDNEY",
-  "postcode": "1207",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "HAYMARKET|1208": {
-  "suburb": "HAYMARKET",
-  "postcode": "1208",
-  "lat": -29.816475,
-  "lon": 151.659454
- },
- "HAYMARKET": {
-  "suburb": "HAYMARKET",
-  "postcode": "1208",
-  "lat": -29.816475,
-  "lon": 151.659454
- },
- "AUSTRALIA SQUARE|1209": {
-  "suburb": "AUSTRALIA SQUARE",
-  "postcode": "1209",
-  "lat": -33.891788,
-  "lon": 151.176251
- },
- "AUSTRALIA SQUARE": {
-  "suburb": "AUSTRALIA SQUARE",
-  "postcode": "1209",
-  "lat": -33.891788,
-  "lon": 151.176251
- },
- "AUSTRALIA SQUARE|1210": {
-  "suburb": "AUSTRALIA SQUARE",
-  "postcode": "1210",
-  "lat": -33.891788,
-  "lon": 151.176251
- },
- "AUSTRALIA SQUARE|1211": {
-  "suburb": "AUSTRALIA SQUARE",
-  "postcode": "1211",
-  "lat": -33.891788,
-  "lon": 151.176251
- },
- "AUSTRALIA SQUARE|1212": {
-  "suburb": "AUSTRALIA SQUARE",
-  "postcode": "1212",
-  "lat": -33.891788,
-  "lon": 151.176251
- },
- "AUSTRALIA SQUARE|1213": {
-  "suburb": "AUSTRALIA SQUARE",
-  "postcode": "1213",
-  "lat": -33.891788,
-  "lon": 151.176251
- },
- "AUSTRALIA SQUARE|1214": {
-  "suburb": "AUSTRALIA SQUARE",
-  "postcode": "1214",
-  "lat": -33.891788,
-  "lon": 151.176251
- },
- "GROSVENOR PLACE|1216": {
-  "suburb": "GROSVENOR PLACE",
-  "postcode": "1216",
-  "lat": -33.741311,
-  "lon": 151.034025
- },
- "GROSVENOR PLACE": {
-  "suburb": "GROSVENOR PLACE",
-  "postcode": "1216",
-  "lat": -33.741311,
-  "lon": 151.034025
- },
- "GROSVENOR PLACE|1217": {
-  "suburb": "GROSVENOR PLACE",
-  "postcode": "1217",
-  "lat": -33.741311,
-  "lon": 151.034025
- },
- "GROSVENOR PLACE|1218": {
-  "suburb": "GROSVENOR PLACE",
-  "postcode": "1218",
-  "lat": -33.741311,
-  "lon": 151.034025
- },
- "GROSVENOR PLACE|1219": {
-  "suburb": "GROSVENOR PLACE",
-  "postcode": "1219",
-  "lat": -33.741311,
-  "lon": 151.034025
- },
- "ROYAL EXCHANGE|1221": {
-  "suburb": "ROYAL EXCHANGE",
-  "postcode": "1221",
-  "lat": -33.86533,
-  "lon": 151.207905
- },
- "ROYAL EXCHANGE": {
-  "suburb": "ROYAL EXCHANGE",
-  "postcode": "1221",
-  "lat": -33.86533,
-  "lon": 151.207905
- },
- "ROYAL EXCHANGE|1222": {
-  "suburb": "ROYAL EXCHANGE",
-  "postcode": "1222",
-  "lat": -33.86533,
-  "lon": 151.207905
- },
- "ROYAL EXCHANGE|1223": {
-  "suburb": "ROYAL EXCHANGE",
-  "postcode": "1223",
-  "lat": -33.86533,
-  "lon": 151.207905
- },
- "ROYAL EXCHANGE|1224": {
-  "suburb": "ROYAL EXCHANGE",
-  "postcode": "1224",
-  "lat": -33.86533,
-  "lon": 151.207905
- },
- "QUEEN VICTORIA BUILDING|1226": {
-  "suburb": "QUEEN VICTORIA BUILDING",
-  "postcode": "1226",
-  "lat": -33.871749,
-  "lon": 151.206708
- },
- "QUEEN VICTORIA BUILDING": {
-  "suburb": "QUEEN VICTORIA BUILDING",
-  "postcode": "1226",
-  "lat": -33.871749,
-  "lon": 151.206708
- },
- "QUEEN VICTORIA BUILDING|1227": {
-  "suburb": "QUEEN VICTORIA BUILDING",
-  "postcode": "1227",
-  "lat": -33.871749,
-  "lon": 151.206708
- },
- "QUEEN VICTORIA BUILDING|1228": {
-  "suburb": "QUEEN VICTORIA BUILDING",
-  "postcode": "1228",
-  "lat": -33.871749,
-  "lon": 151.206708
- },
- "QUEEN VICTORIA BUILDING|1229": {
-  "suburb": "QUEEN VICTORIA BUILDING",
-  "postcode": "1229",
-  "lat": -33.871749,
-  "lon": 151.206708
- },
- "SYDNEY SOUTH|1231": {
-  "suburb": "SYDNEY SOUTH",
-  "postcode": "1231",
-  "lat": -33.815551,
-  "lon": 151.042528
- },
- "SYDNEY SOUTH": {
-  "suburb": "SYDNEY SOUTH",
-  "postcode": "1231",
-  "lat": -33.815551,
-  "lon": 151.042528
- },
- "SYDNEY SOUTH|1232": {
-  "suburb": "SYDNEY SOUTH",
-  "postcode": "1232",
-  "lat": -33.815551,
-  "lon": 151.042528
- },
- "SYDNEY SOUTH|1233": {
-  "suburb": "SYDNEY SOUTH",
-  "postcode": "1233",
-  "lat": -33.815551,
-  "lon": 151.042528
- },
- "SYDNEY SOUTH|1234": {
-  "suburb": "SYDNEY SOUTH",
-  "postcode": "1234",
-  "lat": -33.815551,
-  "lon": 151.042528
- },
- "HAYMARKET|1236": {
-  "suburb": "HAYMARKET",
-  "postcode": "1236",
-  "lat": -29.816475,
-  "lon": 151.659454
- },
- "HAYMARKET|1237": {
-  "suburb": "HAYMARKET",
-  "postcode": "1237",
-  "lat": -29.816475,
-  "lon": 151.659454
- },
- "HAYMARKET|1238": {
-  "suburb": "HAYMARKET",
-  "postcode": "1238",
-  "lat": -29.816475,
-  "lon": 151.659454
- },
- "HAYMARKET|1239": {
-  "suburb": "HAYMARKET",
-  "postcode": "1239",
-  "lat": -29.816475,
-  "lon": 151.659454
- },
- "SYDNEY|1291": {
-  "suburb": "SYDNEY",
-  "postcode": "1291",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1292": {
-  "suburb": "SYDNEY",
-  "postcode": "1292",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1293": {
-  "suburb": "SYDNEY",
-  "postcode": "1293",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1294": {
-  "suburb": "SYDNEY",
-  "postcode": "1294",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1295": {
-  "suburb": "SYDNEY",
-  "postcode": "1295",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1296": {
-  "suburb": "SYDNEY",
-  "postcode": "1296",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1297": {
-  "suburb": "SYDNEY",
-  "postcode": "1297",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1298": {
-  "suburb": "SYDNEY",
-  "postcode": "1298",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
- "SYDNEY|1299": {
-  "suburb": "SYDNEY",
-  "postcode": "1299",
-  "lat": -33.794883,
-  "lon": 151.268071
- },
  "EASTERN SUBURBS MC|1314": {
   "suburb": "EASTERN SUBURBS MC",
   "postcode": "1314",
@@ -1103,18 +23,6 @@
   "lat": -33.88871,
   "lon": 151.240508
  },
- "BROADWAY|1401": {
-  "suburb": "BROADWAY",
-  "postcode": "1401",
-  "lat": -33.884217,
-  "lon": 151.199825
- },
- "BROADWAY": {
-  "suburb": "BROADWAY",
-  "postcode": "1401",
-  "lat": -33.884217,
-  "lon": 151.199825
- },
  "SOUTHERN SUBURBS MC|1419": {
   "suburb": "SOUTHERN SUBURBS MC",
   "postcode": "1419",
@@ -1126,102 +34,6 @@
   "postcode": "1419",
   "lat": -34.0641,
   "lon": 151.094
- },
- "STRAWBERRY HILLS|1420": {
-  "suburb": "STRAWBERRY HILLS",
-  "postcode": "1420",
-  "lat": -33.726098,
-  "lon": 150.931838
- },
- "STRAWBERRY HILLS": {
-  "suburb": "STRAWBERRY HILLS",
-  "postcode": "1420",
-  "lat": -33.726098,
-  "lon": 150.931838
- },
- "STRAWBERRY HILLS|1422": {
-  "suburb": "STRAWBERRY HILLS",
-  "postcode": "1422",
-  "lat": -33.726098,
-  "lon": 150.931838
- },
- "STRAWBERRY HILLS|1423": {
-  "suburb": "STRAWBERRY HILLS",
-  "postcode": "1423",
-  "lat": -33.726098,
-  "lon": 150.931838
- },
- "STRAWBERRY HILLS|1424": {
-  "suburb": "STRAWBERRY HILLS",
-  "postcode": "1424",
-  "lat": -33.726098,
-  "lon": 150.931838
- },
- "STRAWBERRY HILLS|1425": {
-  "suburb": "STRAWBERRY HILLS",
-  "postcode": "1425",
-  "lat": -33.726098,
-  "lon": 150.931838
- },
- "STRAWBERRY HILLS|1426": {
-  "suburb": "STRAWBERRY HILLS",
-  "postcode": "1426",
-  "lat": -33.726098,
-  "lon": 150.931838
- },
- "STRAWBERRY HILLS|1427": {
-  "suburb": "STRAWBERRY HILLS",
-  "postcode": "1427",
-  "lat": -33.726098,
-  "lon": 150.931838
- },
- "STRAWBERRY HILLS|1428": {
-  "suburb": "STRAWBERRY HILLS",
-  "postcode": "1428",
-  "lat": -33.726098,
-  "lon": 150.931838
- },
- "STRAWBERRY HILLS|1429": {
-  "suburb": "STRAWBERRY HILLS",
-  "postcode": "1429",
-  "lat": -33.726098,
-  "lon": 150.931838
- },
- "EVELEIGH|1430": {
-  "suburb": "EVELEIGH",
-  "postcode": "1430",
-  "lat": -33.890232,
-  "lon": 151.199489
- },
- "EVELEIGH": {
-  "suburb": "EVELEIGH",
-  "postcode": "1430",
-  "lat": -33.890232,
-  "lon": 151.199489
- },
- "WATERLOO|1441": {
-  "suburb": "WATERLOO",
-  "postcode": "1441",
-  "lat": -33.902836,
-  "lon": 151.057914
- },
- "WATERLOO": {
-  "suburb": "WATERLOO",
-  "postcode": "1441",
-  "lat": -33.902836,
-  "lon": 151.057914
- },
- "MARRICKVILLE|1476": {
-  "suburb": "MARRICKVILLE",
-  "postcode": "1476",
-  "lat": -33.90911,
-  "lon": 151.15334
- },
- "MARRICKVILLE": {
-  "suburb": "MARRICKVILLE",
-  "postcode": "1476",
-  "lat": -33.90911,
-  "lon": 151.15334
  },
  "HURSTVILLE BC|1481": {
   "suburb": "HURSTVILLE BC",
@@ -1259,18 +71,6 @@
   "lat": -33.974354,
   "lon": 151.140345
  },
- "HURSTVILLE|1493": {
-  "suburb": "HURSTVILLE",
-  "postcode": "1493",
-  "lat": -33.975869,
-  "lon": 151.088939
- },
- "HURSTVILLE": {
-  "suburb": "HURSTVILLE",
-  "postcode": "1493",
-  "lat": -33.975869,
-  "lon": 151.088939
- },
  "NORTHBRIDGE|1560": {
   "suburb": "NORTHBRIDGE",
   "postcode": "1560",
@@ -1282,18 +82,6 @@
   "postcode": "1560",
   "lat": -33.812636,
   "lon": 151.214797
- },
- "LANE COVE|1597": {
-  "suburb": "LANE COVE",
-  "postcode": "1597",
-  "lat": -33.791875,
-  "lon": 151.187955
- },
- "LANE COVE": {
-  "suburb": "LANE COVE",
-  "postcode": "1597",
-  "lat": -33.791875,
-  "lon": 151.187955
  },
  "LANE COVE DC|1602": {
   "suburb": "LANE COVE DC",
@@ -1319,60 +107,6 @@
   "lat": -33.7046,
   "lon": 151.101
  },
- "FRENCHS FOREST|1639": {
-  "suburb": "FRENCHS FOREST",
-  "postcode": "1639",
-  "lat": -33.793137,
-  "lon": 151.246751
- },
- "FRENCHS FOREST": {
-  "suburb": "FRENCHS FOREST",
-  "postcode": "1639",
-  "lat": -33.793137,
-  "lon": 151.246751
- },
- "MONA VALE|1658": {
-  "suburb": "MONA VALE",
-  "postcode": "1658",
-  "lat": -33.698773,
-  "lon": 151.216799
- },
- "MONA VALE": {
-  "suburb": "MONA VALE",
-  "postcode": "1658",
-  "lat": -33.698773,
-  "lon": 151.216799
- },
- "PARRAMATTA|1740": {
-  "suburb": "PARRAMATTA",
-  "postcode": "1740",
-  "lat": -33.886166,
-  "lon": 151.139472
- },
- "PARRAMATTA": {
-  "suburb": "PARRAMATTA",
-  "postcode": "1740",
-  "lat": -33.886166,
-  "lon": 151.139472
- },
- "PARRAMATTA|1741": {
-  "suburb": "PARRAMATTA",
-  "postcode": "1741",
-  "lat": -33.886166,
-  "lon": 151.139472
- },
- "PENNANT HILLS|1771": {
-  "suburb": "PENNANT HILLS",
-  "postcode": "1771",
-  "lat": -33.758433,
-  "lon": 151.049106
- },
- "PENNANT HILLS": {
-  "suburb": "PENNANT HILLS",
-  "postcode": "1771",
-  "lat": -33.758433,
-  "lon": 151.049106
- },
  "SEVEN HILLS MC|1781": {
   "suburb": "SEVEN HILLS MC",
   "postcode": "1781",
@@ -1385,18 +119,6 @@
   "lat": -33.7779,
   "lon": 150.932
  },
- "STRATHFIELD|1819": {
-  "suburb": "STRATHFIELD",
-  "postcode": "1819",
-  "lat": -33.877139,
-  "lon": 151.093326
- },
- "STRATHFIELD": {
-  "suburb": "STRATHFIELD",
-  "postcode": "1819",
-  "lat": -33.877139,
-  "lon": 151.093326
- },
  "LIDCOMBE|1825": {
   "suburb": "LIDCOMBE",
   "postcode": "1825",
@@ -1408,48 +130,6 @@
   "postcode": "1825",
   "lat": -33.872483,
   "lon": 151.044768
- },
- "GRANVILLE|1830": {
-  "suburb": "GRANVILLE",
-  "postcode": "1830",
-  "lat": -33.859289,
-  "lon": 150.948582
- },
- "GRANVILLE": {
-  "suburb": "GRANVILLE",
-  "postcode": "1830",
-  "lat": -33.859289,
-  "lon": 150.948582
- },
- "GRANVILLE|1831": {
-  "suburb": "GRANVILLE",
-  "postcode": "1831",
-  "lat": -33.859289,
-  "lon": 150.948582
- },
- "MOOREBANK|1874": {
-  "suburb": "MOOREBANK",
-  "postcode": "1874",
-  "lat": -33.93566973,
-  "lon": 150.9413383
- },
- "MOOREBANK": {
-  "suburb": "MOOREBANK",
-  "postcode": "1874",
-  "lat": -33.93566973,
-  "lon": 150.9413383
- },
- "BANKSTOWN|1888": {
-  "suburb": "BANKSTOWN",
-  "postcode": "1888",
-  "lat": -33.907417,
-  "lon": 151.024581
- },
- "BANKSTOWN": {
-  "suburb": "BANKSTOWN",
-  "postcode": "1888",
-  "lat": -33.907417,
-  "lon": 151.024581
  },
  "BARANGAROO|2000": {
   "suburb": "BARANGAROO",
@@ -1493,6 +173,12 @@
   "lat": -33.859953,
   "lon": 151.256649
  },
+ "HAYMARKET": {
+  "suburb": "HAYMARKET",
+  "postcode": "2000",
+  "lat": -33.859953,
+  "lon": 151.256649
+ },
  "MILLERS POINT|2000": {
   "suburb": "MILLERS POINT",
   "postcode": "2000",
@@ -1523,7 +209,19 @@
   "lat": -33.859953,
   "lon": 151.256649
  },
+ "SYDNEY": {
+  "suburb": "SYDNEY",
+  "postcode": "2000",
+  "lat": -33.859953,
+  "lon": 151.256649
+ },
  "SYDNEY SOUTH|2000": {
+  "suburb": "SYDNEY SOUTH",
+  "postcode": "2000",
+  "lat": -33.859953,
+  "lon": 151.256649
+ },
+ "SYDNEY SOUTH": {
   "suburb": "SYDNEY SOUTH",
   "postcode": "2000",
   "lat": -33.859953,
@@ -1572,6 +270,12 @@
   "lon": 151.186507
  },
  "BROADWAY|2007": {
+  "suburb": "BROADWAY",
+  "postcode": "2007",
+  "lat": -33.883189,
+  "lon": 151.19665
+ },
+ "BROADWAY": {
   "suburb": "BROADWAY",
   "postcode": "2007",
   "lat": -33.883189,
@@ -1787,6 +491,12 @@
   "lat": -33.910105,
   "lon": 151.194825
  },
+ "EVELEIGH": {
+  "suburb": "EVELEIGH",
+  "postcode": "2015",
+  "lat": -33.910105,
+  "lon": 151.194825
+ },
  "REDFERN|2016": {
   "suburb": "REDFERN",
   "postcode": "2016",
@@ -1800,6 +510,12 @@
   "lon": 151.206211
  },
  "WATERLOO|2017": {
+  "suburb": "WATERLOO",
+  "postcode": "2017",
+  "lat": -33.903892,
+  "lon": 151.206316
+ },
+ "WATERLOO": {
   "suburb": "WATERLOO",
   "postcode": "2017",
   "lat": -33.903892,
@@ -2891,18 +1607,6 @@
   "lat": -33.89037,
   "lon": 151.17598
  },
- "UNSW SYDNEY|2052": {
-  "suburb": "UNSW SYDNEY",
-  "postcode": "2052",
-  "lat": -33.906561,
-  "lon": 151.234417
- },
- "UNSW SYDNEY": {
-  "suburb": "UNSW SYDNEY",
-  "postcode": "2052",
-  "lat": -33.906561,
-  "lon": 151.234417
- },
  "NORTH SYDNEY|2055": {
   "suburb": "NORTH SYDNEY",
   "postcode": "2055",
@@ -3156,6 +1860,12 @@
   "lon": 151.192212
  },
  "LANE COVE|2066": {
+  "suburb": "LANE COVE",
+  "postcode": "2066",
+  "lat": -33.818641,
+  "lon": 151.160912
+ },
+ "LANE COVE": {
   "suburb": "LANE COVE",
   "postcode": "2066",
   "lat": -33.818641,
@@ -3911,6 +2621,12 @@
   "lat": -33.75185,
   "lon": 151.229211
  },
+ "FRENCHS FOREST": {
+  "suburb": "FRENCHS FOREST",
+  "postcode": "2086",
+  "lat": -33.75185,
+  "lon": 151.229211
+ },
  "FRENCHS FOREST EAST|2086": {
   "suburb": "FRENCHS FOREST EAST",
   "postcode": "2086",
@@ -4553,6 +3269,12 @@
   "lat": -33.679336,
   "lon": 151.302825
  },
+ "MONA VALE": {
+  "suburb": "MONA VALE",
+  "postcode": "2103",
+  "lat": -33.679336,
+  "lon": 151.302825
+ },
  "BAYVIEW|2104": {
   "suburb": "BAYVIEW",
   "postcode": "2104",
@@ -4846,18 +3568,6 @@
   "postcode": "2108",
   "lat": -33.60382,
   "lon": 151.322759
- },
- "MACQUARIE UNIVERSITY|2109": {
-  "suburb": "MACQUARIE UNIVERSITY",
-  "postcode": "2109",
-  "lat": -33.771558,
-  "lon": 151.113473
- },
- "MACQUARIE UNIVERSITY": {
-  "suburb": "MACQUARIE UNIVERSITY",
-  "postcode": "2109",
-  "lat": -33.771558,
-  "lon": 151.113473
  },
  "HUNTERS HILL|2110": {
   "suburb": "HUNTERS HILL",
@@ -5285,6 +3995,12 @@
   "lat": -33.731105,
   "lon": 151.07359
  },
+ "PENNANT HILLS": {
+  "suburb": "PENNANT HILLS",
+  "postcode": "2120",
+  "lat": -33.731105,
+  "lon": 151.07359
+ },
  "THORNLEIGH|2120": {
   "suburb": "THORNLEIGH",
   "postcode": "2120",
@@ -5356,12 +4072,6 @@
   "postcode": "2122",
   "lat": -33.791357,
   "lon": 151.092072
- },
- "PARRAMATTA|2123": {
-  "suburb": "PARRAMATTA",
-  "postcode": "2123",
-  "lat": -33.815446,
-  "lon": 150.999575
  },
  "WEST PENNANT HILLS|2125": {
   "suburb": "WEST PENNANT HILLS",
@@ -5537,6 +4247,12 @@
   "lat": -33.881009,
   "lon": 151.084759
  },
+ "STRATHFIELD": {
+  "suburb": "STRATHFIELD",
+  "postcode": "2135",
+  "lat": -33.881009,
+  "lon": 151.084759
+ },
  "BURWOOD HEIGHTS|2136": {
   "suburb": "BURWOOD HEIGHTS",
   "postcode": "2136",
@@ -5681,18 +4397,6 @@
   "lat": -33.846098,
   "lon": 151.086036
  },
- "CONCORD REPATRIATION HOSPITAL|2139": {
-  "suburb": "CONCORD REPATRIATION HOSPITAL",
-  "postcode": "2139",
-  "lat": -33.835993,
-  "lon": 151.095163
- },
- "CONCORD REPATRIATION HOSPITAL": {
-  "suburb": "CONCORD REPATRIATION HOSPITAL",
-  "postcode": "2139",
-  "lat": -33.835993,
-  "lon": 151.095163
- },
  "HOMEBUSH|2140": {
   "suburb": "HOMEBUSH",
   "postcode": "2140",
@@ -5808,6 +4512,12 @@
   "lon": 151.0220764
  },
  "GRANVILLE|2142": {
+  "suburb": "GRANVILLE",
+  "postcode": "2142",
+  "lat": -33.832747,
+  "lon": 151.015196
+ },
+ "GRANVILLE": {
   "suburb": "GRANVILLE",
   "postcode": "2142",
   "lat": -33.832747,
@@ -6210,6 +4920,12 @@
   "lon": 151.006506
  },
  "PARRAMATTA|2150": {
+  "suburb": "PARRAMATTA",
+  "postcode": "2150",
+  "lat": -33.814463,
+  "lon": 151.006506
+ },
+ "PARRAMATTA": {
   "suburb": "PARRAMATTA",
   "postcode": "2150",
   "lat": -33.814463,
@@ -7085,6 +5801,12 @@
   "lat": -33.93566973,
   "lon": 150.9413383
  },
+ "MOOREBANK": {
+  "suburb": "MOOREBANK",
+  "postcode": "2170",
+  "lat": -33.93566973,
+  "lon": 150.9413383
+ },
  "MOUNT PRITCHARD|2170": {
   "suburb": "MOUNT PRITCHARD",
   "postcode": "2170",
@@ -7715,6 +6437,12 @@
   "lat": -33.926559,
   "lon": 151.014937
  },
+ "BANKSTOWN": {
+  "suburb": "BANKSTOWN",
+  "postcode": "2200",
+  "lat": -33.926559,
+  "lon": 151.014937
+ },
  "BANKSTOWN AERODROME|2200": {
   "suburb": "BANKSTOWN AERODROME",
   "postcode": "2200",
@@ -7806,6 +6534,12 @@
   "lon": 151.138999
  },
  "MARRICKVILLE|2204": {
+  "suburb": "MARRICKVILLE",
+  "postcode": "2204",
+  "lat": -33.912288,
+  "lon": 151.155539
+ },
+ "MARRICKVILLE": {
   "suburb": "MARRICKVILLE",
   "postcode": "2204",
   "lat": -33.912288,
@@ -8388,6 +7122,12 @@
   "lon": 151.132495
  },
  "HURSTVILLE|2220": {
+  "suburb": "HURSTVILLE",
+  "postcode": "2220",
+  "lat": -33.966692,
+  "lon": 151.101764
+ },
+ "HURSTVILLE": {
   "suburb": "HURSTVILLE",
   "postcode": "2220",
   "lat": -33.966692,
@@ -12970,18 +11710,6 @@
   "postcode": "2312",
   "lat": -32.133322,
   "lon": 152.33084
- },
- "WILLIAMTOWN RAAF|2314": {
-  "suburb": "WILLIAMTOWN RAAF",
-  "postcode": "2314",
-  "lat": -32.797453,
-  "lon": 151.840094
- },
- "WILLIAMTOWN RAAF": {
-  "suburb": "WILLIAMTOWN RAAF",
-  "postcode": "2314",
-  "lat": -32.797453,
-  "lon": 151.840094
  },
  "CORLETTE|2315": {
   "suburb": "CORLETTE",
@@ -18508,18 +17236,6 @@
   "postcode": "2350",
   "lat": -30.493397,
   "lon": 151.906153
- },
- "UNIVERSITY OF NEW ENGLAND|2351": {
-  "suburb": "UNIVERSITY OF NEW ENGLAND",
-  "postcode": "2351",
-  "lat": -30.489129,
-  "lon": 151.639627
- },
- "UNIVERSITY OF NEW ENGLAND": {
-  "suburb": "UNIVERSITY OF NEW ENGLAND",
-  "postcode": "2351",
-  "lat": -30.489129,
-  "lon": 151.639627
  },
  "KOOTINGAL|2352": {
   "suburb": "KOOTINGAL",
@@ -35471,18 +34187,6 @@
   "lat": -34.35558,
   "lon": 150.709623
  },
- "UNIVERSITY OF WOLLONGONG|2522": {
-  "suburb": "UNIVERSITY OF WOLLONGONG",
-  "postcode": "2522",
-  "lat": -34.405103,
-  "lon": 150.877805
- },
- "UNIVERSITY OF WOLLONGONG": {
-  "suburb": "UNIVERSITY OF WOLLONGONG",
-  "postcode": "2522",
-  "lat": -34.405103,
-  "lon": 150.877805
- },
  "FIGTREE|2525": {
   "suburb": "FIGTREE",
   "postcode": "2525",
@@ -48844,18 +47548,6 @@
   "postcode": "2660",
   "lat": -35.699906,
   "lon": 147.07831
- },
- "KAPOOKA|2661": {
-  "suburb": "KAPOOKA",
-  "postcode": "2661",
-  "lat": -35.157697,
-  "lon": 147.277559
- },
- "KAPOOKA": {
-  "suburb": "KAPOOKA",
-  "postcode": "2661",
-  "lat": -35.157697,
-  "lon": 147.277559
  },
  "BUNDURE|2663": {
   "suburb": "BUNDURE",
