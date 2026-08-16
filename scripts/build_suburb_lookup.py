@@ -1,13 +1,16 @@
 """
-Builds data/nsw-suburbs.json — a static lookup of NSW suburb + postcode -> lat/lon.
+Builds data/nsw-suburbs.json — a static lookup of Greater Sydney suburb +
+postcode -> lat/lon, restricted to the region clinicians actually operate
+in (so a Sydney suburb name never collides with an unrelated regional NSW
+town that happens to share the name).
 
 Source: matthewproctor/australianpostcodes (public, MIT-licensed dataset of
 Australian postcodes, derived from Australia Post data).
 
 This only needs to be re-run if the source dataset is refreshed, or if the
-team starts operating in a suburb that genuinely isn't covered (very unlikely
-for greater Sydney / NSW). It is NOT part of the fortnightly update — that
-happens in the Google Sheet, see docs/UPDATING.md.
+team starts operating in a suburb that genuinely isn't covered. It is NOT
+part of the fortnightly update — that happens in the Google Sheet, see
+docs/UPDATING.md.
 
 Usage:
     python3 scripts/build_suburb_lookup.py
@@ -32,21 +35,42 @@ def norm(s: str) -> str:
 def main():
     lookup = {}
     skipped = 0
-    excluded_po_box = 0
+    excluded_non_residential = 0
+    excluded_non_sydney = 0
     with open(SRC, newline="", encoding="utf-8") as f:
         reader = csv.DictReader(f)
         for row in reader:
             if row["state"] != "NSW":
                 continue
-            # Exclude non-residential postcode types — these aren't places
-            # anyone lives or works, they just share a locality name with the
-            # real delivery-area postcode:
-            #   - "Post Office Boxes" (e.g. Castle Hill 1765 vs the real 2154)
-            #   - "LVR" / Large Volume Receiver — corporate/government mail
-            #     codes (e.g. Parramatta 1740/1741/2123 vs the real 2150)
-            if row["type"] in ("Post Office Boxes", "LVR"):
-                excluded_po_box += 1
+
+            postcode = row["postcode"].strip()
+
+            # Exclude non-residential postcodes — these aren't places anyone
+            # lives or works, they just share a locality name with the real
+            # delivery-area postcode:
+            #   - "Post Office Boxes" / "LVR" (Large Volume Receiver) — the
+            #     source's own "type" tag, where it's populated
+            #   - ANY postcode in the 1000-1999 range — by Australia Post's
+            #     own numbering, this range is always reserved for LVR/PO
+            #     Box codes, never a real delivery area. This catches rows
+            #     where "type" itself is blank in the source data (e.g.
+            #     Woollahra 1350, Kogarah 1485 both had no type tag at all,
+            #     so the type-only check missed them).
+            if row["type"] in ("Post Office Boxes", "LVR") or postcode.startswith("1"):
+                excluded_non_residential += 1
                 continue
+
+            # Restrict to Greater Sydney (SA4 regions starting "Sydney - ")
+            # AND the "R1 - Major City" remoteness classification. SA4 name
+            # alone isn't quite enough — e.g. a "Dural" postcode (2330) is
+            # tagged under the Sydney SA4 but is actually R3 (outer
+            # regional), a genuinely different, distant locality that just
+            # shares a name and an odd SA4 boundary quirk with the real
+            # Dural (2158, R1) in northwest Sydney.
+            if not row["sa4name"].startswith("Sydney") or row["region"] != "R1":
+                excluded_non_sydney += 1
+                continue
+
             try:
                 lat = float(row["lat"])
                 lon = float(row["long"])
@@ -58,7 +82,6 @@ def main():
                 continue
 
             suburb = row["locality"].strip()
-            postcode = row["postcode"].strip()
             key = f"{norm(suburb)}|{postcode}"
 
             # A given suburb+postcode can appear more than once in the source
@@ -71,8 +94,8 @@ def main():
                     "lon": lon,
                 }
 
-            # Also index by suburb name alone (first NSW postcode wins) so the
-            # search box can work off a typed suburb with no postcode.
+            # Also index by suburb name alone (first Sydney postcode wins) so
+            # the search box can work off a typed suburb with no postcode.
             suburb_only_key = norm(suburb)
             if suburb_only_key not in lookup:
                 lookup[suburb_only_key] = {
@@ -88,8 +111,10 @@ def main():
 
     print(f"Wrote {len(lookup)} entries to {OUT}")
     print(f"Skipped {skipped} rows with missing/zero coordinates")
-    print(f"Excluded {excluded_po_box} PO-Box-only rows")
+    print(f"Excluded {excluded_non_residential} non-residential (PO Box/LVR/1xxx) rows")
+    print(f"Excluded {excluded_non_sydney} rows outside Greater Sydney")
 
 
 if __name__ == "__main__":
     main()
+
