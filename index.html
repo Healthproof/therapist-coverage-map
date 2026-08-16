@@ -504,11 +504,239 @@
     margin-top:5px;
   }
 
+  .tab-nav{
+    display:flex;
+    gap:4px;
+    padding:0 28px;
+    background:var(--white);
+    border-bottom:1px solid var(--grey-line);
+    height:44px;
+  }
+  .tab-btn{
+    padding:0 16px;
+    height:100%;
+    display:flex;
+    align-items:center;
+    font-family:'Inter',sans-serif;
+    font-size:13.5px;
+    font-weight:600;
+    color:var(--ink-soft);
+    background:none;
+    border:none;
+    border-bottom:3px solid transparent;
+    cursor:pointer;
+    transition:color 0.15s, border-color 0.15s;
+  }
+  .tab-btn:hover{color:var(--ink);}
+  .tab-btn.active{color:var(--blue-deep);border-bottom-color:var(--blue);}
+
+  .view-panel{
+    height:calc(100vh - 63px - 44px);
+    overflow-y:auto;
+    background:var(--grey);
+    padding:32px 24px 60px;
+  }
+  .lga-gen-wrap{max-width:720px;margin:0 auto;}
+  .lga-gen-title{
+    font-family:'Poppins',sans-serif;
+    font-size:19px;
+    font-weight:600;
+    margin:0 0 6px;
+    color:var(--ink);
+  }
+  .lga-gen-panel{
+    background:var(--white);
+    border:1px solid var(--grey-line);
+    border-radius:12px;
+    padding:20px;
+  }
+  .lga-gen-instructions{
+    background:var(--blue-light);
+    border:1px solid #cfe8ff;
+    border-radius:12px;
+    padding:16px 20px;
+    margin-bottom:18px;
+  }
+  .gen-instructions-title{
+    font-family:'Poppins',sans-serif;
+    font-size:13px;
+    font-weight:600;
+    color:var(--blue-deep);
+    margin:0 0 8px;
+  }
+  .lga-gen-instructions ol{
+    margin:0;
+    padding-left:20px;
+    font-size:12.5px;
+    line-height:1.65;
+    color:var(--ink);
+  }
+  .lga-gen-instructions li{margin-bottom:4px;}
+  .lga-gen-instructions li:last-child{margin-bottom:0;}
+  .lga-gen-instructions code{
+    background:#fff;
+    border:1px solid #cfe8ff;
+    border-radius:4px;
+    padding:1px 5px;
+    font-size:11.5px;
+  }
+  .gen-add-row{display:flex;gap:8px;align-items:flex-start;}
+  .gen-add-row > div{position:relative;flex:1;}
+  .gen-add-row input{
+    width:100%;
+    padding:11px 14px;
+    font-size:14px;
+    border:1.5px solid var(--grey-line);
+    border-radius:8px;
+    background:var(--white);
+    color:var(--ink);
+    font-family:'Inter',sans-serif;
+  }
+  .gen-add-row input:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px var(--blue-light);}
+  .gen-add-btn{
+    padding:0 18px;
+    height:42px;
+    font-size:13.5px;
+    font-weight:600;
+    font-family:'Inter',sans-serif;
+    color:#fff;
+    background:var(--blue);
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    white-space:nowrap;
+  }
+  .gen-add-btn:hover{background:var(--blue-deep);}
+  .gen-suggestions{
+    position:absolute;
+    left:0;right:0;
+    list-style:none;
+    margin:6px 0 0;
+    padding:0;
+    border:1px solid var(--grey-line);
+    border-radius:8px;
+    background:var(--white);
+    max-height:190px;
+    overflow-y:auto;
+    display:none;
+    box-shadow:0 6px 16px rgba(13,15,17,0.08);
+    z-index:10;
+  }
+  .gen-suggestions li{padding:9px 14px;font-size:13px;cursor:pointer;border-bottom:1px solid var(--grey-line);}
+  .gen-suggestions li:last-child{border-bottom:none;}
+  .gen-suggestions li:hover{background:var(--blue-light);}
+
+  .gen-bulk-details{margin-top:14px;}
+  .gen-bulk-details summary{
+    font-size:12.5px;
+    color:var(--blue-deep);
+    cursor:pointer;
+    font-weight:600;
+  }
+  .gen-bulk-details textarea{
+    width:100%;
+    margin-top:10px;
+    padding:10px 12px;
+    font-size:13px;
+    font-family:'Inter',sans-serif;
+    border:1.5px solid var(--grey-line);
+    border-radius:8px;
+    resize:vertical;
+    color:var(--ink);
+  }
+  .gen-bulk-details textarea:focus{outline:none;border-color:var(--blue);}
+
+  .gen-chip-row{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px;}
+  .gen-chip{
+    display:flex;
+    align-items:center;
+    gap:6px;
+    font-size:12.5px;
+    font-weight:500;
+    padding:6px 8px 6px 12px;
+    border:1.5px solid var(--grey-line);
+    border-radius:999px;
+    background:var(--grey);
+    color:var(--ink);
+  }
+  .gen-chip.unresolved{border-color:var(--cap-full);color:var(--cap-full);background:var(--cap-full-bg);}
+  .gen-chip button{
+    border:none;
+    background:none;
+    color:var(--ink-soft);
+    cursor:pointer;
+    font-size:14px;
+    line-height:1;
+    padding:0 2px;
+  }
+  .gen-actions-row{display:flex;align-items:center;gap:14px;margin-top:16px;}
+  .gen-clear-btn{
+    background:none;
+    border:none;
+    color:var(--ink-soft);
+    font-size:12.5px;
+    cursor:pointer;
+    text-decoration:underline;
+  }
+
+  .gen-unmatched{
+    margin-top:16px;
+    padding:12px 16px;
+    border-radius:10px;
+    background:var(--cap-tight-bg);
+    color:var(--cap-tight);
+    font-size:12.5px;
+    line-height:1.6;
+  }
+
+  .gen-results-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    margin:24px 0 10px;
+  }
+  .gen-copy-btn{
+    padding:7px 14px;
+    font-size:12.5px;
+    font-weight:600;
+    font-family:'Inter',sans-serif;
+    color:var(--blue-deep);
+    background:var(--blue-light);
+    border:none;
+    border-radius:999px;
+    cursor:pointer;
+  }
+  .gen-copy-btn:hover{background:#dcefff;}
+  .gen-copy-btn.copied{color:var(--cap-good);background:var(--cap-good-bg);}
+
+  .gen-results{list-style:none;margin:0;padding:0;}
+  .gen-result-card{
+    display:flex;
+    align-items:flex-start;
+    gap:12px;
+    background:var(--white);
+    border:1px solid var(--grey-line);
+    border-radius:10px;
+    padding:12px 14px;
+    margin-bottom:8px;
+  }
+  .gen-swatch{
+    width:18px;height:18px;
+    border-radius:5px;
+    flex-shrink:0;
+    margin-top:1px;
+    border:1px solid var(--grey-line);
+  }
+  .gen-result-name{font-size:13.5px;font-weight:600;color:var(--ink);margin:0 0 3px;}
+  .gen-result-meta{font-size:11.5px;color:var(--ink-soft);}
+
   @media (max-width: 720px){
     .layout{flex-direction:column;height:auto;}
     .sidebar{width:100%;min-width:0;border-right:none;border-bottom:1px solid var(--grey-line);}
     #map{height:60vh;}
     header{padding:12px 16px;}
+    .tab-nav{padding:0 16px;}
+    .view-panel{padding:20px 16px 50px;}
   }
 </style>
 </head>
@@ -526,7 +754,12 @@
   <span class="badge-internal">Internal use only</span>
 </header>
 
-<div class="layout">
+<nav class="tab-nav">
+  <button type="button" class="tab-btn active" data-view="map">Coverage map</button>
+  <button type="button" class="tab-btn" data-view="lga-gen">LGA Identifier</button>
+</nav>
+
+<div class="layout" id="view-map">
   <div class="sidebar">
     <label class="field-label" for="suburb-input">Search a suburb</label>
     <input id="suburb-input" type="text" placeholder="" autocomplete="off">
@@ -582,6 +815,59 @@
     <div id="legend"></div>
   </div>
   <div id="map"></div>
+</div>
+
+<div class="view-panel" id="view-lga-gen" style="display:none;">
+  <div class="lga-gen-wrap">
+    <h2 class="lga-gen-title">LGA Identifier</h2>
+    <p class="hint" style="margin-bottom:18px;">Bulk-identify the Local Government Area (LGA) for a batch of patient suburbs, and get the matching Z0N_ Cliniko tags ready to apply &mdash; built for the daily calendar tagging run, so you're not looking each suburb up one by one.</p>
+
+    <div class="lga-gen-instructions">
+      <p class="gen-instructions-title">How to use this</p>
+      <ol>
+        <li>Pull today's list of patient suburbs from the referrals/calendar you're tagging.</li>
+        <li>Add them below &mdash; type each one into the search box and hit <strong>Add</strong> (or Enter), or paste the whole list at once using <strong>"Paste a list instead."</strong></li>
+        <li>Check the chip list for anything marked <strong>(not found)</strong> in red &mdash; usually a typo or a suburb outside NSW &mdash; and fix or remove it.</li>
+        <li>Click <strong>Generate LGA tags</strong>. Each result card is one Cliniko tag (<code>Z0N_LGA Name</code>), with the suburbs that matched it listed underneath so you can spot-check.</li>
+        <li>Click <strong>Copy list</strong> to copy every tag name to your clipboard, then paste into Cliniko when applying the unavailable block types / appointment types for the day.</li>
+        <li>Click <strong>Clear all</strong> to reset once you're done, ready for tomorrow's batch.</li>
+      </ol>
+    </div>
+
+    <div class="lga-gen-panel">
+      <label class="field-label" for="gen-suburb-input">Add a suburb</label>
+      <div class="gen-add-row">
+        <div>
+          <input id="gen-suburb-input" type="text" placeholder="Start typing a suburb..." autocomplete="off">
+          <ul id="gen-suggestions" class="gen-suggestions"></ul>
+        </div>
+        <button type="button" id="gen-add-btn" class="gen-add-btn">Add</button>
+      </div>
+
+      <details class="gen-bulk-details">
+        <summary>Paste a list instead (one suburb per line)</summary>
+        <textarea id="gen-bulk-input" rows="5" placeholder="Bankstown&#10;Liverpool 2170&#10;Parramatta"></textarea>
+        <button type="button" id="gen-bulk-add-btn" class="gen-add-btn" style="margin-top:8px;">Add all</button>
+      </details>
+
+      <div id="gen-suburb-chips" class="gen-chip-row"></div>
+
+      <div class="gen-actions-row">
+        <button type="button" id="gen-generate-btn" class="enquiry-btn" style="margin-top:0;width:auto;padding:11px 22px;">Generate LGA tags</button>
+        <button type="button" id="gen-clear-btn" class="gen-clear-btn">Clear all</button>
+      </div>
+    </div>
+
+    <div id="gen-unmatched" class="gen-unmatched" style="display:none;"></div>
+
+    <div id="gen-results-wrap" style="display:none;">
+      <div class="gen-results-header">
+        <span class="field-label" style="margin:0;">Cliniko LGA tags to apply</span>
+        <button type="button" id="gen-copy-btn" class="gen-copy-btn">Copy list</button>
+      </div>
+      <ul id="gen-results" class="gen-results"></ul>
+    </div>
+  </div>
 </div>
 
 <!--
@@ -1450,6 +1736,256 @@ enquiryForm.addEventListener('submit', (e) => {
       enquiryError.style.display = '';
       enquirySubmitBtn.disabled = false;
     });
+});
+
+// --- Tab navigation (Coverage map / LGA Identifier) ---
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    const view = btn.dataset.view;
+    document.getElementById('view-map').style.display = view === 'map' ? 'flex' : 'none';
+    document.getElementById('view-lga-gen').style.display = view === 'lga-gen' ? 'block' : 'none';
+    if (view === 'map') {
+      // The map div was display:none while the other tab was open, so
+      // Leaflet needs a nudge to recalculate its size correctly.
+      setTimeout(() => map.invalidateSize(), 50);
+    }
+  });
+});
+
+// --- LGA Identifier (bulk suburb -> Cliniko LGA tag) ---
+//
+// Cliniko block-type tags follow the "Z0N_LGA Name" naming convention,
+// numbered alphabetically by LGA name (see docs/UPDATING.md). All tags
+// currently share a single colour (#e7edf0) rather than one colour per
+// LGA, so only the tag name matters here.
+const LGA_TAG_ORDER = [
+  'BAYSIDE COUNCIL',
+  'BLACKTOWN CITY COUNCIL',
+  'BLUE MOUNTAINS CITY COUNCIL',
+  'BURWOOD COUNCIL',
+  'CAMDEN COUNCIL',
+  'CAMPBELLTOWN CITY COUNCIL',
+  'CANTERBURY-BANKSTOWN COUNCIL',
+  'CENTRAL COAST COUNCIL',
+  'CITY OF CANADA BAY COUNCIL',
+  'CITY OF PARRAMATTA COUNCIL',
+  'COUNCIL OF THE CITY OF SYDNEY',
+  'CUMBERLAND COUNCIL',
+  'FAIRFIELD CITY COUNCIL',
+  'GEORGES RIVER COUNCIL',
+  'HAWKESBURY CITY COUNCIL',
+  'INNER WEST COUNCIL',
+  'KU-RING-GAI COUNCIL',
+  'LANE COVE MUNICIPAL COUNCIL',
+  'LIVERPOOL CITY COUNCIL',
+  'MOSMAN MUNICIPAL COUNCIL',
+  'NORTH SYDNEY COUNCIL',
+  'NORTHERN BEACHES COUNCIL',
+  'PENRITH CITY COUNCIL',
+  'RANDWICK CITY COUNCIL',
+  'RYDE CITY COUNCIL',
+  'STRATHFIELD MUNICIPAL COUNCIL',
+  'SUTHERLAND SHIRE COUNCIL',
+  'THE COUNCIL OF THE MUNICIPALITY OF HUNTERS HILL',
+  'THE COUNCIL OF THE SHIRE OF HORNSBY',
+  'THE HILLS SHIRE COUNCIL',
+  'UNINCORPORATED',
+  'WAVERLEY COUNCIL',
+  'WILLOUGHBY CITY COUNCIL',
+  'WOLLONDILLY SHIRE COUNCIL',
+  'WOOLLAHRA MUNICIPAL COUNCIL'
+];
+const LGA_TAG_MAP = {};
+LGA_TAG_ORDER.forEach((name, i) => {
+  const z = String(i + 1).padStart(2, '0');
+  LGA_TAG_MAP[name] = { tag: `Z${z}_${titleCaseLGA(name)}`, z };
+});
+const GEN_TAG_COLOR = '#e7edf0';
+
+const genState = { suburbs: [], lastTagList: [] };
+
+function parseSuburbText(raw) {
+  const trimmed = (raw || '').trim();
+  if (!trimmed) return null;
+  const m = trimmed.match(/^(.*\S)\s+(\d{4})$/);
+  if (m) return { suburb: m[1], postcode: m[2] };
+  return { suburb: trimmed, postcode: null };
+}
+
+function resolveSuburb(suburb, postcode) {
+  if (!state.suburbIndex) return null;
+  const key = suburbLookupKey(suburb, postcode);
+  return state.suburbIndex[key] || state.suburbIndex[suburbLookupKey(suburb)] || null;
+}
+
+function addSuburbFromRawText(raw) {
+  const parsed = parseSuburbText(raw);
+  if (!parsed) return;
+  const label = parsed.postcode ? `${parsed.suburb.trim()} ${parsed.postcode}` : parsed.suburb.trim();
+  if (genState.suburbs.some(s => s.label.toUpperCase() === label.toUpperCase())) return;
+  const hit = resolveSuburb(parsed.suburb, parsed.postcode);
+  if (hit) {
+    genState.suburbs.push({ label: `${hit.suburb} ${hit.postcode}`, lat: hit.lat, lon: hit.lon, resolved: true });
+  } else {
+    genState.suburbs.push({ label, resolved: false });
+  }
+}
+
+function renderGenChips() {
+  const row = document.getElementById('gen-suburb-chips');
+  row.innerHTML = '';
+  genState.suburbs.forEach((s, i) => {
+    const chip = document.createElement('div');
+    chip.className = 'gen-chip' + (s.resolved ? '' : ' unresolved');
+    const label = document.createElement('span');
+    label.textContent = s.resolved ? s.label : `${s.label} (not found)`;
+    chip.appendChild(label);
+    const removeBtn = document.createElement('button');
+    removeBtn.type = 'button';
+    removeBtn.setAttribute('aria-label', 'Remove suburb');
+    removeBtn.textContent = '\u00d7';
+    removeBtn.addEventListener('click', () => {
+      genState.suburbs.splice(i, 1);
+      renderGenChips();
+    });
+    chip.appendChild(removeBtn);
+    row.appendChild(chip);
+  });
+}
+
+function generateLgaTags() {
+  const resultsWrap = document.getElementById('gen-results-wrap');
+  const resultsList = document.getElementById('gen-results');
+  const unmatchedEl = document.getElementById('gen-unmatched');
+  resultsList.innerHTML = '';
+
+  const unresolvedLabels = genState.suburbs.filter(s => !s.resolved).map(s => s.label);
+  const noLgaLabels = [];
+  const byLga = new Map(); // LGA name -> [suburb labels]
+
+  genState.suburbs.filter(s => s.resolved).forEach(s => {
+    const hit = findLGA(s.lat, s.lon);
+    if (!hit) { noLgaLabels.push(s.label); return; }
+    const name = hit.properties.name;
+    if (!byLga.has(name)) byLga.set(name, []);
+    byLga.get(name).push(s.label);
+  });
+
+  const unmatchedMsgs = [];
+  if (unresolvedLabels.length) unmatchedMsgs.push(`Not recognised as an NSW suburb &mdash; check spelling: ${unresolvedLabels.join(', ')}`);
+  if (noLgaLabels.length) unmatchedMsgs.push(`No LGA boundary found (likely outside the mapped coverage area): ${noLgaLabels.join(', ')}`);
+  if (unmatchedMsgs.length) {
+    unmatchedEl.innerHTML = unmatchedMsgs.map(m => `<p style="margin:0 0 4px;">${m}</p>`).join('');
+    unmatchedEl.style.display = 'block';
+  } else {
+    unmatchedEl.style.display = 'none';
+  }
+
+  const ranked = [...byLga.entries()].sort((a, b) => {
+    const za = LGA_TAG_MAP[a[0]] ? LGA_TAG_MAP[a[0]].z : '99';
+    const zb = LGA_TAG_MAP[b[0]] ? LGA_TAG_MAP[b[0]].z : '99';
+    return za.localeCompare(zb);
+  });
+
+  if (!ranked.length) {
+    resultsWrap.style.display = 'none';
+    genState.lastTagList = [];
+    return;
+  }
+
+  ranked.forEach(([name, labels]) => {
+    const tagInfo = LGA_TAG_MAP[name];
+    const tagName = tagInfo ? tagInfo.tag : titleCaseLGA(name);
+    const li = document.createElement('li');
+    li.className = 'gen-result-card';
+    li.innerHTML = `
+      <span class="gen-swatch" style="background:${GEN_TAG_COLOR};"></span>
+      <div>
+        <p class="gen-result-name">${tagName}</p>
+        <p class="gen-result-meta">${labels.join(', ')}</p>
+      </div>
+    `;
+    resultsList.appendChild(li);
+  });
+
+  resultsWrap.style.display = 'block';
+  const copyBtn = document.getElementById('gen-copy-btn');
+  copyBtn.textContent = 'Copy list';
+  copyBtn.classList.remove('copied');
+  genState.lastTagList = ranked.map(([name]) => (LGA_TAG_MAP[name] ? LGA_TAG_MAP[name].tag : titleCaseLGA(name)));
+}
+
+document.getElementById('gen-suburb-input').addEventListener('input', (e) => {
+  const q = normSuburbQuery(e.target.value);
+  const box = document.getElementById('gen-suggestions');
+  box.innerHTML = '';
+  if (q.length < 2) { box.style.display = 'none'; return; }
+  const matches = state.suburbNames.filter(n => n.startsWith(q)).slice(0, 8);
+  if (matches.length === 0) { box.style.display = 'none'; return; }
+  matches.forEach(m => {
+    const li = document.createElement('li');
+    li.textContent = m;
+    li.addEventListener('click', () => {
+      addSuburbFromRawText(m);
+      document.getElementById('gen-suburb-input').value = '';
+      box.style.display = 'none';
+      renderGenChips();
+    });
+    box.appendChild(li);
+  });
+  box.style.display = 'block';
+});
+
+document.getElementById('gen-suburb-input').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') {
+    e.preventDefault();
+    addSuburbFromRawText(e.target.value);
+    e.target.value = '';
+    document.getElementById('gen-suggestions').style.display = 'none';
+    renderGenChips();
+  }
+});
+
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('#gen-suburb-input') && !e.target.closest('#gen-suggestions')) {
+    document.getElementById('gen-suggestions').style.display = 'none';
+  }
+});
+
+document.getElementById('gen-add-btn').addEventListener('click', () => {
+  const input = document.getElementById('gen-suburb-input');
+  addSuburbFromRawText(input.value);
+  input.value = '';
+  document.getElementById('gen-suggestions').style.display = 'none';
+  renderGenChips();
+});
+
+document.getElementById('gen-bulk-add-btn').addEventListener('click', () => {
+  const ta = document.getElementById('gen-bulk-input');
+  ta.value.split(/[\n,]+/).map(s => s.trim()).filter(Boolean).forEach(addSuburbFromRawText);
+  ta.value = '';
+  renderGenChips();
+});
+
+document.getElementById('gen-generate-btn').addEventListener('click', generateLgaTags);
+
+document.getElementById('gen-clear-btn').addEventListener('click', () => {
+  genState.suburbs = [];
+  renderGenChips();
+  document.getElementById('gen-results-wrap').style.display = 'none';
+  document.getElementById('gen-unmatched').style.display = 'none';
+});
+
+document.getElementById('gen-copy-btn').addEventListener('click', () => {
+  if (!genState.lastTagList.length) return;
+  navigator.clipboard.writeText(genState.lastTagList.join('\n')).then(() => {
+    const btn = document.getElementById('gen-copy-btn');
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy list'; btn.classList.remove('copied'); }, 1800);
+  });
 });
 
 loadData();
