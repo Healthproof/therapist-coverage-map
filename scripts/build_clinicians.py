@@ -1,6 +1,5 @@
 """
-Builds data/clinicians.json from the live Google Sheet (Roster + Capacity
-tabs), replacing the old manual CSV/ODS workflow.
+Builds data/clinicians.json from the live Google Sheet.
 
 Data flow:
   Cliniko --(Jarvis/OpenClaw, weekdays 6am)--> Capacity tab
@@ -28,6 +27,7 @@ import os
 import re
 import sys
 import unicodedata
+from datetime import datetime, timezone
 from pathlib import Path
 
 from google.oauth2 import service_account
@@ -40,7 +40,20 @@ OUT_REPORT = ROOT / "data" / "match-report.json"
 
 SHEET_ID = os.environ.get("SHEET_ID", "1DAwxaGtHBZkxUnCaSxUzqZht4onqC98B2p5Qb85Vsag")
 ROSTER_RANGE = "Roster!A2:E"
-CAPACITY_RANGE = "Capacity!A2:F"
+# Extended from A2:F to A2:H to pick up Jarvis's rolling_utilisation and
+# target_utilisation columns:
+#   practitioner_name | next_available_date | slots_available_1_2wk |
+#   slots_available_3_4wk | on_leave | last_updated | rolling_utilisation |
+#   target_utilisation
+CAPACITY_RANGE = "Capacity!A2:H"
+
+# A capacity row older than this is treated as stale rather than current —
+# shown as "no data" (blank/null) rather than presented as today's answer.
+# Jarvis runs on weekdays at 6am, so a normal same-day/next-business-day
+# row is always well within this; anything older usually means the feed
+# hasn't run for that person recently (e.g. a Cliniko practitioner-type
+# filter skipping them) rather than genuinely fresh data.
+STALE_AFTER_HOURS = 48
 
 DISCIPLINE_CODE = {
     "physio": "PT",
@@ -135,6 +148,8 @@ def load_roster(service):
 # real data has ever been written for that row. Treated as "no data yet",
 # never as a genuine "zero capacity" signal — a literal "0" only means
 # something once we know the feed has actually run for that clinician.
+# "-" covers the rolling_utilisation column's own placeholder for
+# clinicians without enough logged hours to compute a rolling average yet.
 PLACEHOLDER_VALUES = {"", "pending first run", "n/a", "tbd", "-"}
 
 
@@ -142,27 +157,128 @@ def clean_capacity_field(v):
     return None if v.strip().lower() in PLACEHOLDER_VALUES else v.strip()
 
 
+def parse_utilisation_pct(raw):
+    """'60.50%' -> 60.5. Placeholder/blank/unparseable -> None."""
+    cleaned = clean_capacity_field(raw)
+    if cleaned is None:
+        return None
+    try:
+        return float(cleaned.rstrip("%").strip())
+    except ValueError:
+        return None
+
+
+def parse_last_updated(raw):
+    cleaned = clean_capacity_field(raw)
+    if cleaned is None:
+        return None
+    # Jarvis writes "YYYY-MM-DD HH:MM" (24h, no timezone marker — treat as
+    # local Sydney time, close enough for a staleness check at this
+    # resolution; we're comparing hours-old, not seconds-old).
+    for fmt in ("%Y-%m-%d %H:%M", "%Y-%m-%d %H:%M:%S", "%Y-%m-%dT%H:%M:%S"):
+        try:
+            return datetime.strptime(cleaned, fmt)
+        except ValueError:
+            continue
+    return None
+
+
 def load_capacity(service):
     rows = fetch_rows(service, CAPACITY_RANGE)
-    capacity = {}
+
+    # Jarvis's feed can carry duplicate rows for the same practitioner
+    # (e.g. a stale row from a previous run that didn't get cleared). Keep
+    # only the row with the most recent last_updated per person — never
+    # "whichever row happens to be last in the sheet".
+    by_name = {}
+    stale_duplicates = []
+
     for row in rows:
-        row = row + [""] * (6 - len(row))
-        name, next_avail, cap12, cap34, on_leave, last_updated = [c.strip() for c in row[:6]]
+        row = row + [""] * (8 - len(row))
+        name, next_avail, cap12, cap34, on_leave, last_updated, rolling_util, target_util = [
+            c.strip() for c in row[:8]
+        ]
         if not name:
             continue
-        last_updated_clean = clean_capacity_field(last_updated)
-        # If this row has never actually been processed by the feed (no
-        # last_updated timestamp), don't trust capacity_1_2wk/3_4wk even if
-        # they contain something that looks like real data (e.g. a "0" left
-        # over from initial setup) — it hasn't been confirmed by a real run.
-        capacity[norm_name(name)] = {
-            "next_available_date": clean_capacity_field(next_avail),
-            "capacity_1_2wk": clean_capacity_field(cap12) if last_updated_clean else None,
-            "capacity_3_4wk": clean_capacity_field(cap34) if last_updated_clean else None,
-            "on_leave": on_leave.strip().upper() == "TRUE",
-            "last_updated": last_updated_clean,
+
+        key = norm_name(name)
+        parsed_updated = parse_last_updated(last_updated)
+
+        candidate_raw = {
+            "name": name,
+            "next_available_date": next_avail,
+            "capacity_1_2wk": cap12,
+            "capacity_3_4wk": cap34,
+            "on_leave": on_leave,
+            "last_updated_raw": last_updated,
+            "last_updated_parsed": parsed_updated,
+            "rolling_utilisation_raw": rolling_util,
+            "target_utilisation_raw": target_util,
         }
-    return capacity
+
+        existing = by_name.get(key)
+        if existing is None:
+            by_name[key] = candidate_raw
+            continue
+
+        # Duplicate row for this person — keep whichever has the newer
+        # last_updated (treating an unparseable/missing timestamp as
+        # older than any real one, so it never wins over real data).
+        existing_dt = existing["last_updated_parsed"]
+        candidate_dt = candidate_raw["last_updated_parsed"]
+        existing_wins = existing_dt is not None and (candidate_dt is None or existing_dt >= candidate_dt)
+        winner, loser = (existing, candidate_raw) if existing_wins else (candidate_raw, existing)
+        by_name[key] = winner
+        stale_duplicates.append({
+            "name": name,
+            "kept_last_updated": winner["last_updated_raw"] or None,
+            "discarded_last_updated": loser["last_updated_raw"] or None,
+        })
+
+    now = datetime.now()
+    capacity = {}
+    stale_rows = []
+
+    for key, c in by_name.items():
+        last_updated_clean = clean_capacity_field(c["last_updated_raw"])
+        parsed_updated = c["last_updated_parsed"]
+
+        is_stale = (
+            parsed_updated is not None
+            and (now - parsed_updated).total_seconds() / 3600 > STALE_AFTER_HOURS
+        )
+        if is_stale:
+            stale_rows.append({
+                "name": c["name"],
+                "last_updated": last_updated_clean,
+                "hours_old": round((now - parsed_updated).total_seconds() / 3600, 1),
+            })
+
+        if last_updated_clean is None or is_stale:
+            # Never trust capacity_1_2wk/3_4wk/next_available/utilisation
+            # from a row that either has no confirmed feed run, or whose
+            # confirmed run is too old to still call "current".
+            capacity[key] = {
+                "next_available_date": None,
+                "capacity_1_2wk": None,
+                "capacity_3_4wk": None,
+                "on_leave": c["on_leave"].strip().upper() == "TRUE",
+                "last_updated": last_updated_clean,
+                "rolling_utilisation": None,
+                "target_utilisation": None,
+            }
+        else:
+            capacity[key] = {
+                "next_available_date": c["next_available_date"] or None,
+                "capacity_1_2wk": clean_capacity_field(c["capacity_1_2wk"]),
+                "capacity_3_4wk": clean_capacity_field(c["capacity_3_4wk"]),
+                "on_leave": c["on_leave"].strip().upper() == "TRUE",
+                "last_updated": last_updated_clean,
+                "rolling_utilisation": parse_utilisation_pct(c["rolling_utilisation_raw"]),
+                "target_utilisation": clean_capacity_field(c["target_utilisation_raw"]),
+            }
+
+    return capacity, stale_duplicates, stale_rows
 
 
 def main():
@@ -170,12 +286,12 @@ def main():
     service = get_sheets_service()
 
     roster = load_roster(service)
-    capacity = load_capacity(service)
+    capacity, stale_duplicates, stale_rows = load_capacity(service)
 
     clinicians = []
     unmatched_geo = []
     unmatched_capacity = []
-    unmatched_roster_row = []
+    unmatched_roster_row = []  # capacity rows with no matching roster row
 
     for key, r in roster.items():
         lat, lon, match_type = None, None, "no address"
@@ -205,6 +321,8 @@ def main():
             "capacity_3_4wk": cap["capacity_3_4wk"] if cap else None,
             "on_leave": on_leave,
             "last_updated": cap["last_updated"] if cap else None,
+            "utilisation_pct": cap["rolling_utilisation"] if cap else None,
+            "utilisation_target": cap["target_utilisation"] if cap else None,
             "status": "active",
         })
 
@@ -220,6 +338,8 @@ def main():
         "geocode_failures": unmatched_geo,
         "no_capacity_row": unmatched_capacity,
         "capacity_rows_with_no_roster_match": unmatched_roster_row,
+        "stale_capacity_rows": stale_rows,
+        "duplicate_capacity_rows": stale_duplicates,
     }
     OUT_REPORT.write_text(json.dumps(report, indent=1), encoding="utf-8")
 
@@ -230,6 +350,14 @@ def main():
         print(f"  - {u['name']}")
     if unmatched_roster_row:
         print(f"Capacity rows with no roster match: {len(unmatched_roster_row)} (likely someone not yet added to Roster tab)")
+    if stale_duplicates:
+        print(f"Duplicate capacity rows resolved by most-recent last_updated: {len(stale_duplicates)}")
+        for d in stale_duplicates:
+            print(f"  - {d['name']}: kept {d['kept_last_updated']}, discarded {d['discarded_last_updated']}")
+    if stale_rows:
+        print(f"Stale capacity rows (>{STALE_AFTER_HOURS}h old, treated as no data): {len(stale_rows)}")
+        for s in stale_rows:
+            print(f"  - {s['name']}: last updated {s['last_updated']} ({s['hours_old']}h ago)")
 
 
 if __name__ == "__main__":
