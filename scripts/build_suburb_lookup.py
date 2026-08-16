@@ -17,8 +17,8 @@ import json
 import re
 from pathlib import Path
 
-SRC = Path("/tmp/australian_postcodes.csv")
-OUT = Path(__file__).resolve().parent.parent / "data" / "nsw-suburbs.json"
+SRC = Path(__file__).resolve().parent / "australian_postcodes.csv"
+OUT = Path(__file__).resolve().parent / "nsw-suburbs.json"
 
 
 def norm(s: str) -> str:
@@ -38,10 +38,13 @@ def main():
         for row in reader:
             if row["state"] != "NSW":
                 continue
-            # Exclude PO-Box-only postcodes (e.g. Castle Hill 1765) — these
-            # aren't places anyone lives or works, they just share a locality
-            # name with the real delivery-area postcode (Castle Hill 2154).
-            if row["type"] == "Post Office Boxes":
+            # Exclude non-residential postcode types — these aren't places
+            # anyone lives or works, they just share a locality name with the
+            # real delivery-area postcode:
+            #   - "Post Office Boxes" (e.g. Castle Hill 1765 vs the real 2154)
+            #   - "LVR" / Large Volume Receiver — corporate/government mail
+            #     codes (e.g. Parramatta 1740/1741/2123 vs the real 2150)
+            if row["type"] in ("Post Office Boxes", "LVR"):
                 excluded_po_box += 1
                 continue
             try:
