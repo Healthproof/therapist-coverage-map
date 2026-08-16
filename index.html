@@ -1011,9 +1011,14 @@ async function loadData() {
     });
   }
 
-  state.suburbNames = Object.values(suburbIndex)
-    .map(v => `${v.suburb} ${v.postcode}`)
-    .filter((v, i, arr) => arr.indexOf(v) === i)
+  // Search suggestions: one entry per suburb name, using whichever
+  // postcode the lookup treats as primary for that name (the suburb-only
+  // key), rather than listing every postcode a suburb happens to have.
+  // A handful of Sydney suburbs (e.g. North Sydney) genuinely do have two
+  // valid postcodes — this just picks one rather than showing both.
+  state.suburbNames = Object.entries(suburbIndex)
+    .filter(([k]) => !k.includes('|'))
+    .map(([, v]) => `${v.suburb} ${v.postcode}`)
     .sort();
 
   const disciplines = [...new Set(clinicians.map(c => c.discipline_code).filter(Boolean))];
