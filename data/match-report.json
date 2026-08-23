@@ -10,14 +10,84 @@
  "capacity_rows_with_no_roster_match": [],
  "stale_capacity_rows": [
   {
+   "name": "Benjamin Farrugia",
+   "last_updated": "2026-08-21 6:02",
+   "hours_old": 63.0
+  },
+  {
+   "name": "Hamish Finlayson",
+   "last_updated": "2026-08-21 6:02",
+   "hours_old": 63.0
+  },
+  {
+   "name": "Jay Choi",
+   "last_updated": "2026-08-21 6:02",
+   "hours_old": 63.0
+  },
+  {
+   "name": "Jayde Pene",
+   "last_updated": "2026-08-21 6:02",
+   "hours_old": 63.0
+  },
+  {
+   "name": "Joyce Lai",
+   "last_updated": "2026-08-21 6:02",
+   "hours_old": 63.0
+  },
+  {
+   "name": "Kathryn Zammit",
+   "last_updated": "2026-08-21 6:02",
+   "hours_old": 63.0
+  },
+  {
+   "name": "Kirsty Lei",
+   "last_updated": "2026-08-21 6:02",
+   "hours_old": 63.0
+  },
+  {
+   "name": "Louise Roche",
+   "last_updated": "2026-08-21 6:02",
+   "hours_old": 63.0
+  },
+  {
+   "name": "Nicholas Youssef",
+   "last_updated": "2026-08-21 6:02",
+   "hours_old": 63.0
+  },
+  {
+   "name": "Qi'En Liang",
+   "last_updated": "2026-08-21 6:02",
+   "hours_old": 63.0
+  },
+  {
+   "name": "Samantha Kuipers",
+   "last_updated": "2026-08-21 6:02",
+   "hours_old": 63.0
+  },
+  {
+   "name": "Samreena Zahoor",
+   "last_updated": "2026-08-21 6:02",
+   "hours_old": 63.0
+  },
+  {
+   "name": "Shila Kerr",
+   "last_updated": "2026-08-21 6:02",
+   "hours_old": 63.0
+  },
+  {
+   "name": "Trevor Li",
+   "last_updated": "2026-08-21 6:02",
+   "hours_old": 63.0
+  },
+  {
    "name": "Tomas Megalaa",
    "last_updated": "2026-08-13 6:00",
-   "hours_old": 183.8
+   "hours_old": 255.0
   },
   {
    "name": "Vincent Le",
    "last_updated": "2026-08-13 6:00",
-   "hours_old": 183.8
+   "hours_old": 255.0
   }
  ],
  "duplicate_capacity_rows": [
