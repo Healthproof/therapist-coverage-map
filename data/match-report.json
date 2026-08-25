@@ -3,6 +3,10 @@
  "geocode_failures": [],
  "no_capacity_row": [
   {
+   "name": "Jay Choi",
+   "reason": "no matching row in Capacity tab \u2014 check the name matches Cliniko exactly"
+  },
+  {
    "name": "Iman Rahbani",
    "reason": "no matching row in Capacity tab \u2014 check the name matches Cliniko exactly"
   }
@@ -12,18 +16,23 @@
   {
    "name": "Tomas Megalaa",
    "last_updated": "2026-08-13 6:00",
-   "hours_old": 279.8
+   "hours_old": 303.8
   },
   {
    "name": "Vincent Le",
    "last_updated": "2026-08-13 6:00",
-   "hours_old": 279.8
+   "hours_old": 303.8
   }
  ],
  "duplicate_capacity_rows": [
   {
    "name": "Trevor Li",
-   "kept_last_updated": "2026-08-25 6:01",
+   "kept_last_updated": "2026-08-26 6:00",
+   "discarded_last_updated": "2026-08-25 6:01"
+  },
+  {
+   "name": "Trevor Li",
+   "kept_last_updated": "2026-08-26 6:00",
    "discarded_last_updated": "2026-08-13 6:00"
   }
  ]
