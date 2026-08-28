@@ -16,23 +16,23 @@
   {
    "name": "Tomas Megalaa",
    "last_updated": "2026-08-13 6:00",
-   "hours_old": 303.8
+   "hours_old": 356.4
   },
   {
    "name": "Vincent Le",
    "last_updated": "2026-08-13 6:00",
-   "hours_old": 303.8
+   "hours_old": 356.4
   }
  ],
  "duplicate_capacity_rows": [
   {
    "name": "Trevor Li",
-   "kept_last_updated": "2026-08-26 6:00",
+   "kept_last_updated": "2026-08-28 9:38",
    "discarded_last_updated": "2026-08-25 6:01"
   },
   {
    "name": "Trevor Li",
-   "kept_last_updated": "2026-08-26 6:00",
+   "kept_last_updated": "2026-08-28 9:38",
    "discarded_last_updated": "2026-08-13 6:00"
   }
  ]
