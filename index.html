@@ -999,10 +999,15 @@ const state = {
 };
 
 const map = L.map('map', { zoomControl: true }).setView([-33.86, 151.05], 10);
-L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
-  maxZoom: 19,
-  attribution: '&copy; OpenStreetMap contributors &copy; CARTO'
+// Esri "Light Gray Canvas" — free, no API key required, no rate-limit key management.
+// Two layers: a base (fills + roads, no labels) and a reference overlay (place labels, boundaries).
+L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+  maxZoom: 16,
+  attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ'
 }).addTo(map);
+L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Reference/MapServer/tile/{z}/{y}/{x}', {
+  maxZoom: 16
+}).addTo(map); // added after the base layer, so it stacks on top of it (both still sit below markers/overlays)
 
 const markerLayer = L.layerGroup().addTo(map);
 const circleLayer = L.layerGroup().addTo(map);
