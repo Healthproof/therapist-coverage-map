@@ -14,19 +14,79 @@
  ],
  "stale_capacity_rows": [
   {
+   "name": "Benjamin Farrugia",
+   "last_updated": "2026-09-01 6:00",
+   "hours_old": 62.6
+  },
+  {
+   "name": "Hamish Finlayson",
+   "last_updated": "2026-09-01 6:00",
+   "hours_old": 62.6
+  },
+  {
+   "name": "Jayde Pene",
+   "last_updated": "2026-09-01 6:00",
+   "hours_old": 62.6
+  },
+  {
+   "name": "Joyce Lai",
+   "last_updated": "2026-09-01 6:00",
+   "hours_old": 62.6
+  },
+  {
+   "name": "Kathryn Zammit",
+   "last_updated": "2026-09-01 6:00",
+   "hours_old": 62.6
+  },
+  {
+   "name": "Kirsty Lei",
+   "last_updated": "2026-09-01 6:00",
+   "hours_old": 62.6
+  },
+  {
+   "name": "Louise Roche",
+   "last_updated": "2026-09-01 6:00",
+   "hours_old": 62.6
+  },
+  {
+   "name": "Nicholas Youssef",
+   "last_updated": "2026-09-01 6:00",
+   "hours_old": 62.6
+  },
+  {
+   "name": "Qi'En Liang",
+   "last_updated": "2026-09-01 6:00",
+   "hours_old": 62.6
+  },
+  {
+   "name": "Samantha Kuipers",
+   "last_updated": "2026-09-01 6:00",
+   "hours_old": 62.6
+  },
+  {
+   "name": "Samreena Zahoor",
+   "last_updated": "2026-09-01 6:00",
+   "hours_old": 62.6
+  },
+  {
+   "name": "Shila Kerr",
+   "last_updated": "2026-09-01 6:00",
+   "hours_old": 62.6
+  },
+  {
    "name": "Trevor Li",
    "last_updated": "2026-08-28 9:38",
-   "hours_old": 106.9
+   "hours_old": 154.9
   },
   {
    "name": "Tomas Megalaa",
    "last_updated": "2026-08-13 6:00",
-   "hours_old": 470.6
+   "hours_old": 518.6
   },
   {
    "name": "Vincent Le",
    "last_updated": "2026-08-13 6:00",
-   "hours_old": 470.6
+   "hours_old": 518.6
   }
  ],
  "duplicate_capacity_rows": [
