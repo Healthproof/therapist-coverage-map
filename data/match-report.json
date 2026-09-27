@@ -14,19 +14,24 @@
  ],
  "stale_capacity_rows": [
   {
+   "name": "Shila Kerr",
+   "last_updated": "2026-09-23 6:00",
+   "hours_old": 113.2
+  },
+  {
    "name": "Trevor Li",
    "last_updated": "2026-08-28 9:38",
-   "hours_old": 661.6
+   "hours_old": 733.5
   },
   {
    "name": "Tomas Megalaa",
    "last_updated": "2026-08-13 6:00",
-   "hours_old": 1025.3
+   "hours_old": 1097.2
   },
   {
    "name": "Vincent Le",
    "last_updated": "2026-08-13 6:00",
-   "hours_old": 1025.3
+   "hours_old": 1097.2
   }
  ],
  "duplicate_capacity_rows": [
